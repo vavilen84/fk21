@@ -51,6 +51,21 @@ AppAsset::register($this);
                     'url' => ['/post/create'],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE, User::MODERATOR_ROLE])
                 ],
+                [
+                    'label' => 'Добавить Пользователя',
+                    'url' => ['/user/create'],
+                    'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
+                ],
+                [
+                    'label' => 'Мой профиль',
+                    'url' => ['/user/profile'],
+                    'visible' => !Yii::$app->user->isGuest
+                ],
+                [
+                    'label' => 'Добавить Галерею',
+                    'url' => ['/gallery/create'],
+                    'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
+                ],
                 Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
                 ) : (

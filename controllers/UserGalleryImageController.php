@@ -8,6 +8,8 @@ use app\models\UserGalleryImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\User;
+use app\models\Gallery;
 
 /**
  * UserGalleryImageController implements the CRUD actions for UserGalleryImage model.
@@ -29,8 +31,28 @@ class UserGalleryImageController extends Controller
         ];
     }
 
+    public function actionUserGallery($userId, $galleryId)
+    {
+        $user = User::findOne(['id' => $userId]);
+        if (!$user instanceof User) {
+            throwException('User not found');
+        }
+        $gallery = Gallery::findById($galleryId);
+        if (!$gallery instanceof Gallery) {
+            throwException('Gallery not found');
+        }
+        $images = Gallery::findAll(['user_id' => $userId, 'gallery_id' => $galleryId]);
+
+        return $this->render('user-gallery', [
+            'user' => $user,
+            'gallery' => $gallery,
+            'images' => $images,
+        ]);
+    }
+
     /**
      * Lists all UserGalleryImage models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -46,6 +68,7 @@ class UserGalleryImageController extends Controller
 
     /**
      * Displays a single UserGalleryImage model.
+     *
      * @param integer $user_id
      * @param integer $gallery_id
      * @param integer $image_id
@@ -62,6 +85,7 @@ class UserGalleryImageController extends Controller
     /**
      * Creates a new UserGalleryImage model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -80,6 +104,7 @@ class UserGalleryImageController extends Controller
     /**
      * Updates an existing UserGalleryImage model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $user_id
      * @param integer $gallery_id
      * @param integer $image_id
@@ -102,6 +127,7 @@ class UserGalleryImageController extends Controller
     /**
      * Deletes an existing UserGalleryImage model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $user_id
      * @param integer $gallery_id
      * @param integer $image_id
@@ -118,6 +144,7 @@ class UserGalleryImageController extends Controller
     /**
      * Finds the UserGalleryImage model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $user_id
      * @param integer $gallery_id
      * @param integer $image_id

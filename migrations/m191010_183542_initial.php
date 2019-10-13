@@ -53,13 +53,6 @@ class m191010_183542_initial extends Migration
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ]);
-        $this->createTable('gallery',[
-            'id' => $this->primaryKey(),
-            'title' => $this->string(255),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer(),
-            'updated_at' => $this->integer(),
-        ]);
         $this->createTable('user_gallery_image',[
             'user_id' => $this->integer(),
             'gallery_id' => $this->integer(),

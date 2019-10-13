@@ -29,6 +29,18 @@ class UserController extends Controller
         ];
     }
 
+    public function actionProfile(){
+        $model = Yii::$app->user->getIdentity();
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        return $this->render('profile', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Lists all User models.
      * @return mixed
