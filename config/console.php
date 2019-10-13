@@ -14,6 +14,9 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+        'userComponent' => [
+            'class' => 'app\components\UserComponent'
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

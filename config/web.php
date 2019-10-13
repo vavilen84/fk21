@@ -12,6 +12,9 @@ $config = [
         '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
+        'userComponent' => [
+            'class' => 'app\components\UserComponent'
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '123456',
@@ -22,6 +25,8 @@ $config = [
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => true,
+            'identityCookie' => ['name' => '_identity-fotokolo', 'httpOnly' => true],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -53,7 +58,6 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-
     ],
     'params' => $params,
 ];
