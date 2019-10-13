@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use app\models\User;
+use yii\helpers\StringHelper;
+use app\models\Post;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PostSearch */
@@ -24,17 +27,43 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'title:ntext',
-            'content:ntext',
-            'user_id',
-            'status',
-            //'created_at',
-            //'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'id',
+                'headerOptions' => ['style' => 'width:1%'],
+            ],
+            [
+                'label' => 'Title',
+                'attribute' => 'title',
+                'headerOptions' => ['style' => 'width:16%'],
+                'value' => function ($model) {
+                    return StringHelper::truncate($model->title, 30);
+                }
+            ],
+            [
+                'label' => 'Content',
+                'attribute' => 'content',
+                'headerOptions' => ['style' => 'width:16%'],
+                'value' => function ($model) {
+                    return StringHelper::truncate($model->content, 30);
+                }
+            ],
+            [
+                'label' => 'Author',
+                'value' => function ($model) {
+                    $user = User::findOne(['id' => $model->user_id]);
+                    return $user->first_name . " " . $user->last_name;
+                }
+            ],
+            [
+                'label' => 'Status',
+                'value' => function ($model) {
+                    return Post::$statusesList[$model->status];
+                }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 

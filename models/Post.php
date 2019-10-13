@@ -8,8 +8,15 @@ use yii\behaviors\TimestampBehavior;
 
 class Post extends PostGii
 {
-    const ACTIVE_STATUS = 1;
-    const DELETED_STATUS = 2;
+    const PUBLISHED_STATUS = 1;
+    const DRAFT_STATUS = 2;
+    const DELETED_STATUS = 3;
+
+    public static $statusesList = [
+        self::PUBLISHED_STATUS => 'Published',
+        self::DRAFT_STATUS => 'Draft',
+        self::DELETED_STATUS => 'Deleted'
+    ];
 
     public function behaviors()
     {

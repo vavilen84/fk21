@@ -15,6 +15,11 @@ class User extends UserGii implements \yii\web\IdentityInterface
     const USER_ROLE = 2;
     const MODERATOR_ROLE = 3;
 
+    public static $statusesList = [
+        self::ACTIVE_STATUS => 'Active',
+        self::DELETED_STATUS => 'Deleted',
+    ];
+
     public function behaviors()
     {
         return [
