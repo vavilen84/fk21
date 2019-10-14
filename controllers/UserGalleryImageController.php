@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Image;
 use Yii;
 use app\models\UserGalleryImage;
 use app\models\UserGalleryImageSearch;
@@ -10,6 +11,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\Gallery;
+use app\models\ImageUpload;
+use yii\web\UploadedFile;
 
 /**
  * UserGalleryImageController implements the CRUD actions for UserGalleryImage model.
@@ -31,6 +34,22 @@ class UserGalleryImageController extends Controller
         ];
     }
 
+    public function actionUserGalleryRemoveImage($userId, $galleryId, $imageId)
+    {
+        $userGalleryImage = UserGalleryImage::findOne(
+            [
+                'user_id' => $userId,
+                'gallery_id' => $galleryId,
+                'image_id' => $imageId
+            ]
+        );
+        if ($userGalleryImage instanceof UserGalleryImage) {
+            $userGalleryImage->delete();
+            Yii::$app->session->setFlash('success', 'Изображение удалено!');
+            $this->redirect(['user-gallery-image/user-gallery', 'userId' => $userId, 'galleryId' => $galleryId]);
+        }
+    }
+
     public function actionUserGallery($userId, $galleryId)
     {
         $user = User::findOne(['id' => $userId]);
@@ -41,12 +60,27 @@ class UserGalleryImageController extends Controller
         if (!$gallery instanceof Gallery) {
             throwException('Gallery not found');
         }
-        $images = Gallery::findAll(['user_id' => $userId, 'gallery_id' => $galleryId]);
+        $userGalleryImages = UserGalleryImage::findAll(['user_id' => $userId, 'gallery_id' => $galleryId]);
+        $imageUploadModel = new ImageUpload();
+        if (Yii::$app->request->isPost) {
+            $imageUploadModel->imageFile = UploadedFile::getInstance($imageUploadModel, 'imageFile');
+            $uploaded = $imageUploadModel->upload();
+            if ($uploaded instanceof Image) {
+                $userGalleryImage = new UserGalleryImage();
+                $userGalleryImage->user_id = $userId;
+                $userGalleryImage->gallery_id = $galleryId;
+                $userGalleryImage->image_id = $uploaded->id;
+                if ($userGalleryImage->save()) {
+                    Yii::$app->session->setFlash('success', 'Изображение добавлено!');
+                }
+            }
+        }
 
         return $this->render('user-gallery', [
             'user' => $user,
             'gallery' => $gallery,
-            'images' => $images,
+            'userGalleryImages' => $userGalleryImages,
+            'imageUploadModel' => $imageUploadModel,
         ]);
     }
 

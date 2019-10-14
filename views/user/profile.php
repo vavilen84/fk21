@@ -16,7 +16,7 @@ use app\models\Gallery;
     <?php foreach (Gallery::getList() as $gallery): ?>
         <?php echo Html::a(
             $gallery->title,
-            Url::toRoute('user-gallery-image/user-gallery', ['userId' => $model->id, 'galleryId' => $gallery->id]),
+            Url::toRoute(['user-gallery-image/user-gallery', 'userId' => $model->id, 'galleryId' => $gallery->id]),
             ['class' => 'btn btn-primary']
         ) ?>
     <?php endforeach; ?>

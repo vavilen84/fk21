@@ -4,18 +4,15 @@ namespace app\components;
 use Yii;
 use yii\base\Component;
 use app\models\User;
+use app\helpers\StringHelper;
 
 class UserComponent extends Component
 {
+    const SALT_LENGTH = 50;
+
     public function getSalt(): string
     {
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+~`.?/';
-        $characters = str_split($characters);
-        $randstring = '';
-        for ($i = 0; $i < 50; $i++) {
-            $randstring .= $characters[rand(0, count($characters) - 1)];
-        }
-        return $randstring;
+        return StringHelper::getRandomString(self::SALT_LENGTH, true);
     }
 
     public function encodePassword(string $password, string $salt): string
