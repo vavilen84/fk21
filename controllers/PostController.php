@@ -86,6 +86,14 @@ class PostController extends Controller
         ]);
     }
 
+    public function actionView($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('view', [
+            'model' => $model,
+        ]);
+    }
+
     /**
      * Deletes an existing Post model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

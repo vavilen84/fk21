@@ -63,9 +63,14 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $query = Post::find()->where(['status' => Post::PUBLISHED_STATUS]);
+        $query = Post::find()->where(['status' => Post::PUBLISHED_STATUS])->orderBy('id DESC');
         $countQuery = clone $query;
-        $pages = new \yii\data\Pagination(['totalCount' => $countQuery->count()]);
+        $pages = new \yii\data\Pagination(
+            [
+                'totalCount' => $countQuery->count(),
+                'defaultPageSize' => 1
+            ]
+        );
         $models = $query->offset($pages->offset)
             ->limit($pages->limit)
             ->all();

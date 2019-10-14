@@ -14,6 +14,7 @@ use Yii;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ * @property string $description
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -31,7 +32,7 @@ class Post extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'content'], 'string'],
+            [['title', 'content', 'description'], 'string'],
             [['user_id', 'status', 'created_at', 'updated_at'], 'integer'],
         ];
     }
@@ -49,6 +50,7 @@ class Post extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'description' => 'Description',
         ];
     }
 }
