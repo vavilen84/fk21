@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Post;
 use app\models\PostSearch;
+use app\models\User;
 
 class SiteController extends Controller
 {

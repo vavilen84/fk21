@@ -41,6 +41,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function actionGalleryStudent()
+    {
+        $users = User::find()->where(['type' => User::STUDENT_TYPE, 'status' => User::ACTIVE_STATUS])->all();
+
+        return $this->render('gallery-student', [
+            'users' => $users,
+        ]);
+    }
+
     /**
      * Lists all User models.
      * @return mixed

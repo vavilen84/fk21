@@ -63,6 +63,19 @@ AppAsset::register($this);
                     'visible' => !Yii::$app->user->isGuest && !Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
                 [
+                    'label' => 'Галерея',
+                    'items' => [
+                        [
+                            'label' => 'Ученики',
+                            'url' => ['/user/gallery-student'],
+                        ],
+                        [
+                            'label' => 'Выпускники',
+                            'url' => ['/user/gallery-graduate'],
+                        ],
+                    ],
+                ],
+                [
                     'label' => 'Войти',
                     'url' => ['/site/login'],
                     'visible' => Yii::$app->user->isGuest
