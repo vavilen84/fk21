@@ -10,7 +10,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
-use app\models\USer;
+use app\models\User;
 
 AppAsset::register($this);
 ?>
@@ -66,9 +66,22 @@ AppAsset::register($this);
                     'url' => ['/gallery/create'],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
-                Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-                ) : (
+                [
+                    'label' => 'Войти',
+                    'url' => ['/site/login'],
+                    'visible' => Yii::$app->user->isGuest
+                ],
+                [
+                    'label' => 'Регистрация',
+                    'url' => ['/user/register'],
+                    'visible' => Yii::$app->user->isGuest
+                ],
+                [
+                    'label' => 'Login',
+                    'url' => ['/site/login'],
+                    'visible' => Yii::$app->user->isGuest
+                ],
+                Yii::$app->user->isGuest ? (['label' => '']) :
                     '<li>'
                     . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(
@@ -76,8 +89,8 @@ AppAsset::register($this);
                         ['class' => 'btn btn-link logout']
                     )
                     . Html::endForm()
-                    . '</li>'
-                )
+                    . '</li>',
+
             ],
         ]
     );
@@ -91,6 +104,12 @@ AppAsset::register($this);
             ]
         ) ?>
         <?= Alert::widget() ?>
+        <?php if( Yii::$app->session->hasFlash('success') ): ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <?php echo Yii::$app->session->getFlash('success'); ?>
+            </div>
+        <?php endif;?>
         <?= $content ?>
     </div>
 </div>

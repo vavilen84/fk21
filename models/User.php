@@ -8,17 +8,37 @@ use yii\behaviors\TimestampBehavior;
 
 class User extends UserGii implements \yii\web\IdentityInterface
 {
+    const DEFAULT_IDENTITY_COOKIE_DURATION = 3600*24*30;
     const ACTIVE_STATUS = 1;
     const DELETED_STATUS = 2;
+    const NEW_STATUS = 3;
 
     CONST ADMIN_ROLE = 1;
     const USER_ROLE = 2;
     const MODERATOR_ROLE = 3;
 
+    const STUDENT_TYPE = 1;
+    const GRADUATE_TYPE = 2;
+
     public static $statusesList = [
-        self::ACTIVE_STATUS => 'Active',
-        self::DELETED_STATUS => 'Deleted',
+        self::ACTIVE_STATUS => 'Активен',
+        self::DELETED_STATUS => 'Удален',
+        self::NEW_STATUS => 'Новый'
     ];
+
+    public static $typesList = [
+        self::STUDENT_TYPE => 'Учащийся',
+        self::GRADUATE_TYPE => 'Выпускник'
+    ];
+
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [['email'], 'unique'];
+        $rules[] = [['first_name', 'last_name', 'password', 'salt', 'status', 'role'], 'required'];
+
+        return $rules;
+    }
 
     public function behaviors()
     {
@@ -49,7 +69,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
 
     public function getAuthKey()
     {
-        return $this->access_token;
+        return;
     }
 
     public function validateAuthKey($authKey)
