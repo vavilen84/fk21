@@ -40,14 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => 'Content',
-                'attribute' => 'content',
-                'headerOptions' => ['style' => 'width:16%'],
-                'value' => function ($model) {
-                    return StringHelper::truncate($model->content, 30);
-                }
-            ],
-            [
                 'label' => 'Author',
                 'value' => function ($model) {
                     $user = User::findOne(['id' => $model->user_id]);
@@ -58,7 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Status',
                 'value' => function ($model) {
                     return Post::$statusesList[$model->status];
-                }
+                },
+               'filter' => Post::$statusesList,
             ],
             [
                 'class' => 'yii\grid\ActionColumn',

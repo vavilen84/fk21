@@ -50,8 +50,8 @@ AppAsset::register($this);
                 ['label' => 'О Нас', 'url' => ['/site/about']],
                 ['label' => 'Обратная связь', 'url' => ['/site/contact']],
                 [
-                    'label' => 'Создать Пост',
-                    'url' => ['/post/create'],
+                    'label' => 'Новости',
+                    'url' => ['/post/index'],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE, User::MODERATOR_ROLE])
                 ],
                 [

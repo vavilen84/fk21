@@ -74,7 +74,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
 
     public function validateAuthKey($authKey)
     {
-        return $this->access_token === $authKey;
+        return true;
     }
 
     public function validatePassword($password)

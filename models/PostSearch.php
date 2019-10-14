@@ -68,6 +68,15 @@ class PostSearch extends Post
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'content', $this->content]);
 
+        $dataProvider->setSort(
+            [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ]
+        );
+
+
         return $dataProvider;
     }
 }

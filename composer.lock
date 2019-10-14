@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffc5e2b06ed0de2e679be1938de904ae",
+    "content-hash": "5c22a10f1e5f61f38b8a7e3971128b25",
     "packages": [
         {
             "name": "2amigos/yii2-file-upload-widget",
@@ -2250,6 +2250,50 @@
             "time": "2019-09-10T21:37:39+00:00"
         },
         {
+            "name": "yiidoc/yii2-redactor",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiidoc/yii2-redactor.git",
+                "reference": "c4c80c19c68728e88d135f4eec5c51352fbbaa37"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiidoc/yii2-redactor/zipball/c4c80c19c68728e88d135f4eec5c51352fbbaa37",
+                "reference": "c4c80c19c68728e88d135f4eec5c51352fbbaa37",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "yii\\redactor\\": "/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nghia Nguyen",
+                    "email": "zinzinday@gmail.com"
+                }
+            ],
+            "description": "Extension redactor for Yii2 Framework.",
+            "keywords": [
+                "Redactor",
+                "extension",
+                "html editor",
+                "imperavi",
+                "wysiwyg",
+                "yii2"
+            ],
+            "time": "2015-06-02T21:47:24+00:00"
+        },
+        {
             "name": "yiisoft/yii2",
             "version": "2.0.27",
             "source": {
@@ -2516,6 +2560,56 @@
                 "yii2"
             ],
             "time": "2018-09-23T22:00:47+00:00"
+        },
+        {
+            "name": "zhuravljov/yii2-pagination",
+            "version": "1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zhuravljov/yii2-pagination.git",
+                "reference": "da68a78db45e132446df2ffdfe23b26d437becb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zhuravljov/yii2-pagination/zipball/da68a78db45e132446df2ffdfe23b26d437becb9",
+                "reference": "da68a78db45e132446df2ffdfe23b26d437becb9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "yiisoft/yii2": "~2.0.18"
+            },
+            "require-dev": {
+                "yiisoft/yii2-debug": "~2.1.0"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "zhuravljov\\yii\\pagination\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Zhuravlev",
+                    "email": "zhuravljov@gmail.com"
+                }
+            ],
+            "description": "Yii2 Pagination Widgets",
+            "keywords": [
+                "pagination",
+                "widget",
+                "yii"
+            ],
+            "time": "2019-05-08T18:03:19+00:00"
         }
     ],
     "packages-dev": [

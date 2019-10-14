@@ -11,6 +11,14 @@ $config = [
         '@bower' => '@vendor/bower-asset',
         '@npm' => '@vendor/npm-asset',
     ],
+    'modules' => [
+        'redactor' => [
+            'class' => 'yii\redactor\RedactorModule',
+//            'uploadDir' => '@webroot/uploads/blog',
+//            'uploadUrl' => '@web/image/add-post-image',
+//            'imageAllowExtensions'=>['jpg','png','gif']
+        ],
+    ],
     'components' => [
         'userComponent' => [
             'class' => 'app\components\UserComponent'

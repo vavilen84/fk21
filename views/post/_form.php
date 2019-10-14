@@ -15,7 +15,7 @@ use app\models\Post;
 
     <?= $form->field($model, 'title')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className()) ?>
 
     <?= $form->field($model, 'status')->dropDownList(Post::$statusesList) ?>
 

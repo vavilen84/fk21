@@ -1,8 +1,21 @@
 <?php
-
+use yii\grid\GridView;
+use yii\helpers\StringHelper;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+?>
+<?php
+foreach ($models as $model) {
+    echo "<h2>" . $model->title . "</h2>";
+    echo "<br>";
+    echo $model->content;
+}
+
+// отображаем ссылки на страницы
+echo \yii\widgets\LinkPager::widget([
+'pagination' => $pages,
+]);
 ?>
 <div class="site-index">
 
