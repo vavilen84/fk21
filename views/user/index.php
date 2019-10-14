@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use app\models\User;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -18,35 +18,39 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'email:email',
             'first_name',
             'last_name',
-            'password:ntext',
-            //'salt:ntext',
-            //'role',
-            //'type',
-            //'about:ntext',
-            //'avatar:ntext',
-            //'pinterest_link',
-            //'instagram_link',
-            //'facebook_link',
-            //'phone',
-            //'skype',
-            //'telegram',
-            //'status',
-            //'created_at',
-            //'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'label' => 'Role',
+                'value' => function ($model) {
+                    return User::$rolesList[$model->role] ?? '';
+                },
+                'filter' => User::$rolesList,
+            ],
+            [
+                'label' => 'Type',
+                'value' => function ($model) {
+                    return User::$typesList[$model->type] ?? '';
+                },
+                'filter' => User::$typesList,
+            ],
+            [
+                'label' => 'Status',
+                'value' => function ($model) {
+                    return User::$statusesList[$model->status] ?? '';
+                },
+                'filter' => User::$statusesList,
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 

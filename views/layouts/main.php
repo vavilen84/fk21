@@ -47,27 +47,20 @@ AppAsset::register($this);
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
                 ['label' => 'Главная', 'url' => ['/site/index']],
-                ['label' => 'О Нас', 'url' => ['/site/about']],
-                ['label' => 'Обратная связь', 'url' => ['/site/contact']],
                 [
-                    'label' => 'Новости',
+                    'label' => 'Редактировать Новости',
                     'url' => ['/post/index'],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE, User::MODERATOR_ROLE])
                 ],
                 [
-                    'label' => 'Добавить Пользователя',
-                    'url' => ['/user/create'],
+                    'label' => 'Редактировать Пользователей',
+                    'url' => ['/user/index'],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
                 [
                     'label' => 'Мой профиль',
                     'url' => ['/user/profile'],
-                    'visible' => !Yii::$app->user->isGuest
-                ],
-                [
-                    'label' => 'Добавить Галерею',
-                    'url' => ['/gallery/create'],
-                    'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
+                    'visible' => !Yii::$app->user->isGuest && !Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
                 [
                     'label' => 'Войти',

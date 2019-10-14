@@ -8,7 +8,8 @@ use yii\behaviors\TimestampBehavior;
 
 class User extends UserGii implements \yii\web\IdentityInterface
 {
-    const DEFAULT_IDENTITY_COOKIE_DURATION = 3600*24*30;
+    const DEFAULT_IDENTITY_COOKIE_DURATION = 3600 * 24 * 30;
+
     const ACTIVE_STATUS = 1;
     const DELETED_STATUS = 2;
     const NEW_STATUS = 3;
@@ -19,6 +20,12 @@ class User extends UserGii implements \yii\web\IdentityInterface
 
     const STUDENT_TYPE = 1;
     const GRADUATE_TYPE = 2;
+
+    public static $rolesList = [
+        self::ADMIN_ROLE => 'Админ',
+        self::USER_ROLE => 'Пользователь',
+        self::MODERATOR_ROLE => 'Модератор'
+    ];
 
     public static $statusesList = [
         self::ACTIVE_STATUS => 'Активен',
