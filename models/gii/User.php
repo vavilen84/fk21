@@ -26,6 +26,7 @@ use Yii;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ * @property string $password_reset_token
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -45,7 +46,7 @@ class User extends \yii\db\ActiveRecord
         return [
             [['password', 'salt', 'about', 'avatar'], 'string'],
             [['role', 'type', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['email', 'first_name', 'last_name', 'pinterest_link', 'instagram_link', 'facebook_link', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
+            [['email', 'first_name', 'last_name', 'pinterest_link', 'instagram_link', 'facebook_link', 'phone', 'skype', 'telegram', 'password_reset_token'], 'string', 'max' => 255],
         ];
     }
 
@@ -74,6 +75,7 @@ class User extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'password_reset_token' => 'Password Reset Token',
         ];
     }
 }

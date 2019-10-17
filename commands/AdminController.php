@@ -14,7 +14,7 @@ class AdminController extends Controller
         $user->salt = Yii::$app->userComponent->getSalt();
         $user->password = Yii::$app->userComponent->encodePassword(getenv('ADMIN_PASSWORD'), $user->salt);
         $user->first_name = 'ADMIN';
-        $user->last_name = '';
+        $user->last_name = 'ADMIN';
         $user->status = User::ACTIVE_STATUS;
         $user->role = User::ADMIN_ROLE;
         $user->save();

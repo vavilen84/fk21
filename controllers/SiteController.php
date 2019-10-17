@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\StringHelper;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -12,6 +13,7 @@ use app\models\ContactForm;
 use app\models\Post;
 use app\models\PostSearch;
 use app\models\User;
+use app\models\ForgotPasswordForm;
 
 class SiteController extends Controller
 {
@@ -55,6 +57,36 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionForgotPassword()
+    {
+        $model = new ForgotPasswordForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user = User::findByEmail($model->email);
+            if ($user instanceof User) {
+                $user->password_reset_token = StringHelper::getRandomString(50);
+                if ($user->save()) {
+                    $link = "<a href='//" . getenv('DOMAIN') . '/reset-password/' . $user->password_reset_token . ">Reset Password</a>";
+                    $body = 'Follow the link to change the password: ' . $link;
+                    Yii::$app->mailer->compose()
+                        ->setFrom(getenv('MAIL_FROM'))
+                        ->setTo($user->email)
+                        ->setSubject('Сброс пароля')
+                        ->setHtmlBody($body)
+                        ->send();
+                    Yii::$app->session->setFlash('success', 'Вам отправлено письмо для сброса пароля!');
+                } else {
+                    var_dump($user->getErrors());
+                }
+            } else {
+                $model->addError("email", "Пользователя с такой почтой не зарегистрирован");
+            }
+        }
+
+        return $this->render('forgot-password', [
+            'model' => $model,
+        ]);
     }
 
     /**
