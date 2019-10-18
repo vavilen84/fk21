@@ -3,10 +3,14 @@ use dosamigos\fileupload\FileUpload;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\helpers\PathHelper;
-
+use yii\widgets\ActiveForm;
+use app\models\Image;
 ?>
 
 <style>
+    body {
+        overflow-x: hidden;
+    }
     #file-upload-wrapper {
         height: 200px;
         width: 300%;
@@ -31,6 +35,7 @@ use app\helpers\PathHelper;
         list-style: none;
         width: 23%;
         padding: 1%;
+        margin: 3px 0;
         display: inline-block;
         border: 1px solid black;
         border-radius: 5px;
@@ -71,9 +76,13 @@ use app\helpers\PathHelper;
 <br>
 <ul id="admin-gallery-image-list">
     <?php foreach ($userGalleryImages as $userGalleryImage): ?>
+        <?php $image = Image::findOne($userGalleryImage->image_id); ?>
         <li>
             <?php echo Html::img(PathHelper::getUserImageGalleryPath($userGalleryImage)) ?>
             <br>
+            <?php echo $image->title; ?>
+            <br>
+            <?php echo $image->description; ?>
             <br>
             <?php echo Html::a(
                 'Удалить',
@@ -94,8 +103,10 @@ use app\helpers\PathHelper;
                 'Редактировать',
                 Url::toRoute(
                     [
-                        'image/update',
-                        'id' => $userGalleryImage->image_id,
+                        'user-gallery-image/update',
+                        'userId' => $userGalleryImage->user_id,
+                        'imageId' => $userGalleryImage->image_id,
+                        'galleryId' => $userGalleryImage->gallery_id,
                     ]
                 ),
                 ['class' => 'btn btn-default']

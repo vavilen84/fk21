@@ -1,21 +1,38 @@
 <?php
 
 use yii\helpers\Html;
-
+use yii\widgets\ActiveForm;
+use app\models\Image;
 /* @var $this yii\web\View */
-/* @var $model app\models\UserGalleryImage */
+/* @var $model app\models\Image */
 
-$this->title = 'Update User Gallery Image: ' . $model->user_id;
-$this->params['breadcrumbs'][] = ['label' => 'User Gallery Images', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->user_id, 'url' => ['view', 'user_id' => $model->user_id, 'gallery_id' => $model->gallery_id, 'image_id' => $model->image_id]];
+$this->title = 'Update Image: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Images', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="user-gallery-image-update">
+<div class="image-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <div class="image-form">
+
+        <?php $form = ActiveForm::begin(); ?>
+
+        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
+        <?= $form->field($model, 'status')->dropDownList(Image::$statusesList) ?>
+
+
+        <div class="form-group">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
+    </div>
+
 
 </div>

@@ -135,22 +135,22 @@ class UserGalleryImageController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing UserGalleryImage model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     *
-     * @param integer $user_id
-     * @param integer $gallery_id
-     * @param integer $image_id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($user_id, $gallery_id, $image_id)
+    public function actionUpdate($userId, $galleryId, $imageId)
     {
-        $model = $this->findModel($user_id, $gallery_id, $image_id);
+        $model = Image::findOne($imageId);
+        if (empty($model)) {
+            throw new NotFoundHttpException("Image not found");
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'user_id' => $model->user_id, 'gallery_id' => $model->gallery_id, 'image_id' => $model->image_id]);
+            return $this->redirect(
+                [
+                    'user-gallery',
+                    'userId' => $userId,
+                    'galleryId' => $galleryId,
+                    'imageId' => $imageId
+                ]
+            );
         }
 
         return $this->render('update', [
