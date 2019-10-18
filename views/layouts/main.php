@@ -67,11 +67,11 @@ AppAsset::register($this);
                     'items' => [
                         [
                             'label' => 'Ученики',
-                            'url' => ['/user/gallery-student'],
+                            'url' => ['/user/student'],
                         ],
                         [
                             'label' => 'Выпускники',
-                            'url' => ['/user/gallery-graduate'],
+                            'url' => ['/user/graduate'],
                         ],
                     ],
                 ],

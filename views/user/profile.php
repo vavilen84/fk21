@@ -31,7 +31,10 @@ use app\models\Gallery;
 
     <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'avatar')->textarea(['rows' => 6]) ?>
+    <?php if (!empty($model->avatar)): ?>
+        <img src="<?php ?>">
+    <?php endif; ?>
+    <?= $form->field($model, 'avatar')->fileInput() ?>
 
     <?= $form->field($model, 'pinterest_link')->textInput(['maxlength' => true]) ?>
 

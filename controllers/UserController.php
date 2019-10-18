@@ -8,6 +8,8 @@ use app\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use app\models\ImageUpload;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -29,11 +31,27 @@ class UserController extends Controller
         ];
     }
 
-    public function actionProfile(){
+    public function actionProfile()
+    {
         $model = Yii::$app->user->getIdentity();
-
+        $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'avatar');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+                    $model->avatar = $uploaded->id;
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('success', 'Регистрация успешна!');
+                        return $this->redirect(['profile', 'id' => $model->id]);
+                    }
+                }
+            } else {
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Сохранено успешно!');
+                    return $this->redirect(['profile', 'id' => $model->id]);
+                }
+            }
         }
 
         return $this->render('profile', [
@@ -41,17 +59,18 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionGalleryStudent()
+    public function actionStudent()
     {
         $users = User::find()->where(['type' => User::STUDENT_TYPE, 'status' => User::ACTIVE_STATUS])->all();
 
-        return $this->render('gallery-student', [
+        return $this->render('student', [
             'users' => $users,
         ]);
     }
 
     /**
      * Lists all User models.
+     *
      * @return mixed
      */
     public function actionIndex()
@@ -67,6 +86,7 @@ class UserController extends Controller
 
     /**
      * Displays a single User model.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -81,6 +101,7 @@ class UserController extends Controller
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -119,6 +140,7 @@ class UserController extends Controller
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -139,6 +161,7 @@ class UserController extends Controller
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -155,6 +178,7 @@ class UserController extends Controller
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found

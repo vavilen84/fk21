@@ -76,8 +76,7 @@ class SiteController extends Controller
                         ->setHtmlBody($body)
                         ->send();
                     Yii::$app->session->setFlash('success', 'Вам отправлено письмо для сброса пароля!');
-                } else {
-                    var_dump($user->getErrors());
+                    $this->redirect(['/']);
                 }
             } else {
                 $model->addError("email", "Пользователя с такой почтой не зарегистрирован");
