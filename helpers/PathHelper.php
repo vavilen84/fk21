@@ -4,6 +4,7 @@ namespace app\helpers;
 
 use app\models\UserGalleryImage;
 use app\models\Image;
+use app\models\User;
 
 class PathHelper
 {

@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use app\models\Gallery;
+use app\helpers\PathHelper;
+use app\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
@@ -32,9 +34,9 @@ use app\models\Gallery;
     <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
 
     <?php if (!empty($model->avatar)): ?>
-        <img src="<?php ?>">
+        <img src="<?php echo PathHelper::getUserAvatarImagePath($model); ?>" alt="">
     <?php endif; ?>
-    <?= $form->field($model, 'avatar')->fileInput() ?>
+    <?= $form->field($model, 'avatarImage')->fileInput() ?>
 
     <?= $form->field($model, 'pinterest_link')->textInput(['maxlength' => true]) ?>
 

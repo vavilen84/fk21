@@ -16,6 +16,7 @@ class m191010_183542_initial extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->text(),
             'content' => $this->text(),
+            'description' => $this->text(),
             'user_id' => $this->integer(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer(),
@@ -27,11 +28,12 @@ class m191010_183542_initial extends Migration
             'first_name' => $this->string(255),
             'last_name' => $this->string(255),
             'password' => $this->text(),
+            'password_reset_token' => $this->string(255),
             'salt' => $this->text(),
             'role' => $this->smallInteger()->notNull()->defaultValue(10),
             'type' => $this->smallInteger()->notNull()->defaultValue(10),
             'about' => $this->text(),
-            'avatar' => $this->text(),
+            'avatar' => $this->integer()->defaultValue(null),
             'pinterest_link' => $this->string(255),
             'instagram_link' => $this->string(255),
             'facebook_link' => $this->string(255),
@@ -53,7 +55,7 @@ class m191010_183542_initial extends Migration
             'created_at' => $this->integer(),
             'updated_at' => $this->integer(),
         ]);
-        $this->createTable('user_gallery_image',[
+        $this->createTable('user_gallery_image', [
             'user_id' => $this->integer(),
             'gallery_id' => $this->integer(),
             'image_id' => $this->integer(),

@@ -38,9 +38,12 @@ class User extends UserGii implements \yii\web\IdentityInterface
         self::GRADUATE_TYPE => 'Выпускник'
     ];
 
+    public $avatarImage;
+
     public function rules()
     {
         $rules = parent::rules();
+        $rules[] = [['avatarImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'];
         $rules[] = [['email'], 'unique'];
         $rules[] = [['first_name', 'last_name', 'password', 'salt', 'status', 'role'], 'required'];
 

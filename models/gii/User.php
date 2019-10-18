@@ -12,11 +12,12 @@ use Yii;
  * @property string $first_name
  * @property string $last_name
  * @property string $password
+ * @property string $password_reset_token
  * @property string $salt
  * @property int $role
  * @property int $type
  * @property string $about
- * @property string $avatar
+ * @property int $avatar
  * @property string $pinterest_link
  * @property string $instagram_link
  * @property string $facebook_link
@@ -26,7 +27,6 @@ use Yii;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
- * @property string $password_reset_token
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -44,9 +44,9 @@ class User extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['password', 'salt', 'about', 'avatar'], 'string'],
-            [['role', 'type', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['email', 'first_name', 'last_name', 'pinterest_link', 'instagram_link', 'facebook_link', 'phone', 'skype', 'telegram', 'password_reset_token'], 'string', 'max' => 255],
+            [['password', 'salt', 'about'], 'string'],
+            [['role', 'type', 'avatar', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['email', 'first_name', 'last_name', 'password_reset_token', 'pinterest_link', 'instagram_link', 'facebook_link', 'phone', 'skype', 'telegram'], 'string', 'max' => 255],
         ];
     }
 
@@ -61,6 +61,7 @@ class User extends \yii\db\ActiveRecord
             'first_name' => 'First Name',
             'last_name' => 'Last Name',
             'password' => 'Password',
+            'password_reset_token' => 'Password Reset Token',
             'salt' => 'Salt',
             'role' => 'Role',
             'type' => 'Type',
@@ -75,7 +76,6 @@ class User extends \yii\db\ActiveRecord
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'password_reset_token' => 'Password Reset Token',
         ];
     }
 }
