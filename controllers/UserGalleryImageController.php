@@ -14,14 +14,8 @@ use app\models\Gallery;
 use app\models\ImageUpload;
 use yii\web\UploadedFile;
 
-/**
- * UserGalleryImageController implements the CRUD actions for UserGalleryImage model.
- */
 class UserGalleryImageController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -59,8 +53,6 @@ class UserGalleryImageController extends Controller
         }
     }
 
-
-
     public function actionUserGallery($userId, $galleryId)
     {
         $user = User::findOne(['id' => $userId]);
@@ -95,53 +87,32 @@ class UserGalleryImageController extends Controller
         ]);
     }
 
-    /**
-     * Lists all UserGalleryImage models.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
+    public function actionProfile()
     {
-        $searchModel = new UserGalleryImageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single UserGalleryImage model.
-     *
-     * @param integer $user_id
-     * @param integer $gallery_id
-     * @param integer $image_id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($user_id, $gallery_id, $image_id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($user_id, $gallery_id, $image_id),
-        ]);
-    }
-
-    /**
-     * Creates a new UserGalleryImage model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     *
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new UserGalleryImage();
-
+        $model = Yii::$app->user->getIdentity();
+        $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'user_id' => $model->user_id, 'gallery_id' => $model->gallery_id, 'image_id' => $model->image_id]);
+            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'avatarImage');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+                    $model->avatar = $uploaded->id;
+                    if ($model->save()) {
+                        Yii::$app->session->setFlash('success', ' Сохранено успешно!');
+                        return $this->redirect(['profile', 'id' => $model->id]);
+                    } else {
+                        var_dump($model->getErrors());die;
+                    }
+                }
+            } else {
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('success', 'Сохранено успешно!');
+                    return $this->redirect(['profile', 'id' => $model->id]);
+                }
+            }
         }
 
-        return $this->render('create', [
+        return $this->render('profile', [
             'model' => $model,
         ]);
     }
@@ -168,41 +139,5 @@ class UserGalleryImageController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing UserGalleryImage model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     *
-     * @param integer $user_id
-     * @param integer $gallery_id
-     * @param integer $image_id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($user_id, $gallery_id, $image_id)
-    {
-        $this->findModel($user_id, $gallery_id, $image_id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the UserGalleryImage model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $user_id
-     * @param integer $gallery_id
-     * @param integer $image_id
-     * @return UserGalleryImage the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($user_id, $gallery_id, $image_id)
-    {
-        if (($model = UserGalleryImage::findOne(['user_id' => $user_id, 'gallery_id' => $gallery_id, 'image_id' => $image_id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

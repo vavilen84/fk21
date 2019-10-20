@@ -28,7 +28,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
     ];
 
     public static $statusesList = [
-        self::ACTIVE_STATUS => 'Активен',
+        self::ACTIVE_STATUS => 'Активный',
         self::DELETED_STATUS => 'Удален',
         self::NEW_STATUS => 'Новый'
     ];

@@ -7,16 +7,11 @@ use app\models\User;
 /* @var $searchModel app\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Пользователи';
 ?>
 <div class="user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,24 +19,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             'id',
             'email:email',
-            'first_name',
-            'last_name',
             [
-                'label' => 'Role',
+                'label' => 'Имя Фамилия',
+                'value' => function ($model) {
+                    return $model->first_name . " " . $model->last_name;
+                },
+            ],
+            [
+                'label' => 'Роль',
                 'value' => function ($model) {
                     return User::$rolesList[$model->role] ?? '';
                 },
                 'filter' => User::$rolesList,
             ],
             [
-                'label' => 'Type',
+                'label' => 'Тип',
                 'value' => function ($model) {
                     return User::$typesList[$model->type] ?? '';
                 },
                 'filter' => User::$typesList,
             ],
             [
-                'label' => 'Status',
+                'label' => 'Статус',
                 'value' => function ($model) {
                     return User::$statusesList[$model->status] ?? '';
                 },

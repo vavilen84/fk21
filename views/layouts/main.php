@@ -24,6 +24,7 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon">
     <style>
         #logo {
             position: relative;
@@ -66,7 +67,7 @@ AppAsset::register($this);
                 ],
                 [
                     'label' => 'Мой профиль',
-                    'url' => ['/user/profile'],
+                    'url' => ['/user-gallery-image/profile'],
                     'visible' => !Yii::$app->user->isGuest && !Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
                 [

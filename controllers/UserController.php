@@ -29,47 +29,12 @@ class UserController extends Controller
     public function beforeAction($action)
     {
         $model = Yii::$app->user->getIdentity();
-        if (empty($model)) {
+        if (empty($model) || ($model->role != User::ADMIN_ROLE)) {
             throw new NotFoundHttpException('You are not allowed to perform this action.');
         }
         return parent::beforeAction($action);
     }
 
-    public function actionProfile()
-    {
-        $model = Yii::$app->user->getIdentity();
-        $imageUploadModel = new ImageUpload();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'avatarImage');
-            if (!empty($imageUploadModel->imageFile)) {
-                $uploaded = $imageUploadModel->upload();
-                if ($uploaded instanceof Image) {
-                    $model->avatar = $uploaded->id;
-                    if ($model->save()) {
-                        Yii::$app->session->setFlash('success', ' Сохранено успешно!');
-                        return $this->redirect(['profile', 'id' => $model->id]);
-                    } else {
-                        var_dump($model->getErrors());die;
-                    }
-                }
-            } else {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Сохранено успешно!');
-                    return $this->redirect(['profile', 'id' => $model->id]);
-                }
-            }
-        }
-
-        return $this->render('profile', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Lists all User models.
-     *
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new UserSearch();
@@ -81,53 +46,16 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Displays a single User model.
-     *
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     *
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new User();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     *
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        if ($model->role == User::ADMIN_ROLE){
+            throw new NotFoundHttpException('You are not allowed to perform this action.');
+        }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', ' Сохранено успешно!');
+            return $this->redirect(['index', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -135,31 +63,18 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing User model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     *
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
+        if ($model->role == User::ADMIN_ROLE){
+            throw new NotFoundHttpException('You are not allowed to perform this action.');
+        }
         $model->status = User::DELETED_STATUS;
         $model->save();
 
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the User model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $id
-     * @return User the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = User::findOne($id)) !== null) {

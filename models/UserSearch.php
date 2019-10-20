@@ -80,6 +80,8 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'skype', $this->skype])
             ->andFilterWhere(['like', 'telegram', $this->telegram]);
 
+        $query->andFilterWhere(['!=', 'role', User::ADMIN_ROLE]);
+
         return $dataProvider;
     }
 }
