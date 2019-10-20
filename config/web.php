@@ -20,6 +20,9 @@ $config = [
         ],
     ],
     'components' => [
+        'backup' => [
+            'class' => 'app\components\BackupComponent'
+        ],
         'userComponent' => [
             'class' => 'app\components\UserComponent'
         ],

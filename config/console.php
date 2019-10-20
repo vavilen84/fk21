@@ -14,6 +14,9 @@ $config = [
         '@tests' => '@app/tests',
     ],
     'components' => [
+        'backup' => [
+            'class' => 'app\components\BackupComponent'
+        ],
         'userComponent' => [
             'class' => 'app\components\UserComponent'
         ],

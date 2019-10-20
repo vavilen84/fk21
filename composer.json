@@ -22,7 +22,8 @@
         "kartik-v/yii2-widgets": "dev-master",
         "2amigos/yii2-file-upload-widget": "~1.0",
         "yiidoc/yii2-redactor": "*",
-        "zhuravljov/yii2-pagination": "~1.0"
+        "zhuravljov/yii2-pagination": "~1.0",
+        "guzzlehttp/guzzle": "~6.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
