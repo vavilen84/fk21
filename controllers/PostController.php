@@ -9,14 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
-/**
- * PostController implements the CRUD actions for Post model.
- */
+
 class PostController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -29,10 +24,16 @@ class PostController extends Controller
         ];
     }
 
-    /**
-     * Lists all Post models.
-     * @return mixed
-     */
+    public function beforeAction($action)
+    {
+        $model = Yii::$app->user->getIdentity();
+        $allowedUserRoles = [User::ADMIN_ROLE, User::MODERATOR_ROLE];
+        if (empty($model) || !in_array($model->role, $allowedUserRoles)) {
+            throw new NotFoundHttpException('You are not allowed to perform this action.');
+        }
+        return parent::beforeAction($action);
+    }
+
     public function actionIndex()
     {
         $searchModel = new PostSearch();
@@ -44,11 +45,6 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Post model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
     public function actionCreate()
     {
         $model = new Post();
@@ -66,13 +62,6 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Updates an existing Post model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
@@ -86,21 +75,6 @@ class PostController extends Controller
         ]);
     }
 
-    public function actionView($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('view', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Post model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
@@ -109,13 +83,6 @@ class PostController extends Controller
         return $this->redirect(['index']);
     }
 
-    /**
-     * Finds the Post model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Post the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
     protected function findModel($id)
     {
         if (($model = Post::findOne($id)) !== null) {

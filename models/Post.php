@@ -13,9 +13,9 @@ class Post extends PostGii
     const DELETED_STATUS = 3;
 
     public static $statusesList = [
-        self::PUBLISHED_STATUS => 'Published',
-        self::DRAFT_STATUS => 'Draft',
-        self::DELETED_STATUS => 'Deleted'
+        self::PUBLISHED_STATUS => 'Опубликовано',
+        self::DRAFT_STATUS => 'Черновик',
+        self::DELETED_STATUS => 'Удалено'
     ];
 
     public function behaviors()

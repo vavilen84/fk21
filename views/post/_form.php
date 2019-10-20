@@ -13,17 +13,17 @@ use app\models\Post;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'title')->textarea(['rows' => 6])->label('Название') ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 6])->label('Описание') ?>
 
-    <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className()) ?>
+    <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className())->label('Новость') ?>
 
-    <?= $form->field($model, 'status')->dropDownList(Post::$statusesList) ?>
+    <?= $form->field($model, 'status')->dropDownList(Post::$statusesList)->label('Статус') ?>
 
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

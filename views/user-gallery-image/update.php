@@ -6,10 +6,7 @@ use app\models\Image;
 /* @var $this yii\web\View */
 /* @var $model app\models\Image */
 
-$this->title = 'Update Image: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Images', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Редактировать изображение';
 ?>
 <div class="image-update">
 
@@ -19,15 +16,15 @@ $this->params['breadcrumbs'][] = 'Update';
 
         <?php $form = ActiveForm::begin(); ?>
 
-        <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label('Название') ?>
 
-        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+        <?= $form->field($model, 'description')->textarea(['rows' => 6])->label('Описание') ?>
 
-        <?= $form->field($model, 'status')->dropDownList(Image::$statusesList) ?>
+        <?= $form->field($model, 'status')->dropDownList(Image::$statusesList)->label('Статус') ?>
 
 
         <div class="form-group">
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

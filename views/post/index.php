@@ -10,15 +10,14 @@ use app\models\Post;
 /* @var $searchModel app\models\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Posts';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Новости';
 ?>
 <div class="post-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Post', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить новость', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -32,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'headerOptions' => ['style' => 'width:1%'],
             ],
             [
-                'label' => 'Title',
+                'label' => 'Название',
                 'attribute' => 'title',
                 'headerOptions' => ['style' => 'width:16%'],
                 'value' => function ($model) {
@@ -40,14 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'label' => 'Author',
+                'label' => 'Автор',
                 'value' => function ($model) {
                     $user = User::findOne(['id' => $model->user_id]);
                     return $user->first_name . " " . $user->last_name;
                 }
             ],
             [
-                'label' => 'Status',
+                'label' => 'Статус',
                 'value' => function ($model) {
                     return Post::$statusesList[$model->status];
                 },

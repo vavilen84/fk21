@@ -154,6 +154,7 @@ class UserGalleryImageController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Сохранено!');
             return $this->redirect(
                 [
                     'user-gallery',
