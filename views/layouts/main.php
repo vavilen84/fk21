@@ -37,7 +37,11 @@ AppAsset::register($this);
             top:10px;
         }
     </style>
-    <base href="http://<?php echo getenv('DOMAIN'); ?>/">
+    <base href="<?php echo getenv('PROTOCOL'); ?>://<?php echo getenv('DOMAIN'); ?>/">
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <?php $this->beginBody() ?>
