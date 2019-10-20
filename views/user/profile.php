@@ -22,21 +22,22 @@ use app\models\User;
             ['class' => 'btn btn-primary']
         ) ?>
     <?php endforeach; ?>
-
+    <br>
+    <br>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'first_name')->textInput(['maxlength' => true])->label('Имя') ?>
 
-    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'last_name')->textInput(['maxlength' => true])->label('Фамилия') ?>
 
-    <?= $form->field($model, 'about')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'about')->textarea(['rows' => 6])->label('Обо мне') ?>
 
     <?php if (!empty($model->avatar)): ?>
         <img src="<?php echo PathHelper::getUserAvatarImagePath($model); ?>" alt="">
     <?php endif; ?>
-    <?= $form->field($model, 'avatarImage')->fileInput() ?>
+    <?= $form->field($model, 'avatarImage')->fileInput()->label('Аватар') ?>
 
     <?= $form->field($model, 'pinterest_link')->textInput(['maxlength' => true]) ?>
 
@@ -44,7 +45,7 @@ use app\models\User;
 
     <?= $form->field($model, 'facebook_link')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'phone')->textInput(['maxlength' => true])->label('Телефон') ?>
 
     <?= $form->field($model, 'skype')->textInput(['maxlength' => true]) ?>
 
@@ -52,7 +53,7 @@ use app\models\User;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

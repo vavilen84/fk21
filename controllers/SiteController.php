@@ -11,6 +11,9 @@ use app\models\LoginForm;
 use app\models\Post;
 use app\models\User;
 use app\models\ForgotPasswordForm;
+use yii\web\NotFoundHttpException;
+use app\models\UserGalleryImage;
+use app\models\Gallery;
 
 class SiteController extends Controller
 {
@@ -57,6 +60,18 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionUser($type)
+    {
+        if (!array_key_exists($type, User::$typesList)) {
+            throw new NotFoundHttpException('User type not found.');
+        }
+        $users = User::find()->where(['type' => $type, 'status' => User::ACTIVE_STATUS])->all();
+
+        return $this->render('student', [
+            'users' => $users,
+        ]);
+    }
+
     public function actions()
     {
         return [
@@ -68,6 +83,19 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionUserPortfolio($userId){
+        $user = User::findOne($userId);
+        if (empty($user)) {
+            throw new NotFoundHttpException('Use not found');
+        }
+        $userGalleryImages = UserGalleryImage::findAll(['user_id' => $userId, 'gallery_id' => Gallery::PORTFOLIO['id']]);
+
+        return $this->render('user-portfolio', [
+            'user' => $user,
+            'userGalleryImages' => $userGalleryImages,
+        ]);
     }
 
     public function actionForgotPassword()

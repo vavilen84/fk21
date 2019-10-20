@@ -27,7 +27,7 @@ use app\helpers\PathHelper;
 <ul id="user-list">
     <?php foreach ($users as $user): ?>
         <li>
-            <a href="<?php echo Url::toRoute(['user-gallery-image/user-portfolio', 'userId' => $user->id]) ?>">
+            <a href="<?php echo Url::toRoute(['site/user-portfolio', 'userId' => $user->id]) ?>">
                 <?php echo Html::img(PathHelper::getUserAvatarImagePath($user)); ?>
                 <br>
                 <span><?php echo $user->first_name . " " . $user->last_name; ?></span>

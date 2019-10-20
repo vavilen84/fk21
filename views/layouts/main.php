@@ -26,8 +26,8 @@ AppAsset::register($this);
     <?php $this->head() ?>
     <style>
         #logo {
-            position:relative;
-            top:15px;
+            position: relative;
+            top: 15px;
         }
     </style>
     <base href="http://<?php echo getenv('DOMAIN'); ?>/">
@@ -54,7 +54,6 @@ AppAsset::register($this);
             'items' => [
                 ['label' => 'Главная', 'url' => ['/site/index']],
                 ['label' => 'О Нас', 'url' => ['/site/about']],
-                ['label' => 'Обратная связь', 'url' => ['/site/contact']],
                 [
                     'label' => 'Редактировать Новости',
                     'url' => ['/post/index'],
@@ -75,11 +74,11 @@ AppAsset::register($this);
                     'items' => [
                         [
                             'label' => 'Ученики',
-                            'url' => ['/user/student'],
+                            'url' => ['/site/user', 'type' => User::STUDENT_TYPE],
                         ],
                         [
                             'label' => 'Выпускники',
-                            'url' => ['/user/graduate'],
+                            'url' => ['/site/user', 'type' => User::GRADUATE_TYPE],
                         ],
                     ],
                 ],
@@ -116,12 +115,13 @@ AppAsset::register($this);
             ]
         ) ?>
         <?= Alert::widget() ?>
-        <?php if( Yii::$app->session->hasFlash('success') ): ?>
+        <?php if (Yii::$app->session->hasFlash('success')): ?>
             <div class="alert alert-success alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
                 <?php echo Yii::$app->session->getFlash('success'); ?>
             </div>
-        <?php endif;?>
+        <?php endif; ?>
         <?= $content ?>
     </div>
 </div>

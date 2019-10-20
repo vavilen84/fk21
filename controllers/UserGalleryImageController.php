@@ -34,6 +34,15 @@ class UserGalleryImageController extends Controller
         ];
     }
 
+    public function beforeAction($action)
+    {
+        $model = Yii::$app->user->getIdentity();
+        if (empty($model)) {
+            throw new NotFoundHttpException('You are not allowed to perform this action.');
+        }
+        return parent::beforeAction($action);
+    }
+
     public function actionUserGalleryRemoveImage($userId, $galleryId, $imageId)
     {
         $userGalleryImage = UserGalleryImage::findOne(
@@ -50,18 +59,7 @@ class UserGalleryImageController extends Controller
         }
     }
 
-    public function actionUserPortfolio($userId){
-        $user = User::findOne($userId);
-        if (empty($user)) {
-            throw new NotFoundHttpException('Use not found');
-        }
-        $userGalleryImages = UserGalleryImage::findAll(['user_id' => $userId, 'gallery_id' => Gallery::PORTFOLIO['id']]);
 
-        return $this->render('user-portfolio', [
-            'user' => $user,
-            'userGalleryImages' => $userGalleryImages,
-        ]);
-    }
 
     public function actionUserGallery($userId, $galleryId)
     {

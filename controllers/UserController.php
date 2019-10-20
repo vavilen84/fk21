@@ -12,14 +12,8 @@ use yii\web\UploadedFile;
 use app\models\ImageUpload;
 use app\models\Image;
 
-/**
- * UserController implements the CRUD actions for User model.
- */
 class UserController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -31,7 +25,6 @@ class UserController extends Controller
             ],
         ];
     }
-
 
     public function beforeAction($action)
     {
@@ -69,15 +62,6 @@ class UserController extends Controller
 
         return $this->render('profile', [
             'model' => $model,
-        ]);
-    }
-
-    public function actionStudent()
-    {
-        $users = User::find()->where(['type' => User::STUDENT_TYPE, 'status' => User::ACTIVE_STATUS])->all();
-
-        return $this->render('student', [
-            'users' => $users,
         ]);
     }
 
