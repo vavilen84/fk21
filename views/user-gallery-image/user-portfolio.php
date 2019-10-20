@@ -34,6 +34,7 @@ use app\models\Image;
             script.src = url;
             document.getElementsByTagName("head")[0].appendChild(script);
         }
+
         loadScript("/libs/lightGallery-master/src/js/lightgallery.js", function () {
             loadScript("/libs/lightGallery-master/modules/lg-thumbnail.min.js", function () {
             });
@@ -70,10 +71,109 @@ use app\models\Image;
     #lightgallery a img {
         max-width: 100%;
     }
+
+    .mySlides img {
+        max-height: 800px;
+    }
+
+    .container .w25 {
+        width: 25%;
+        max-width: 25%;
+    }
+
+    .container .w25 img {
+        max-width: 100%;
+    }
+
+    .container .w70 {
+        width: 70%;
+    }
+
+    .container .w45 {
+        width: 45%;
+    }
+
+    .portfolio-item {
+        width: 23%;
+        margin: 1%;
+        height: 150px;
+        text-align: center;
+    }
+
+    .links .item {
+        padding: 10px 10px 10px 0;
+        vertical-align: middle;
+    }
+
+    .links .item img {
+        position: relative;
+    }
+
+    .links {
+        margin-top: 30px;
+    }
+
+    .portfolio-item img {
+        max-width: 100%;
+        max-height: 150px;
+    }
+
+    .fl {
+        float: left;
+    }
+
+    .fr {
+        float: right;
+    }
 </style>
-<h1></h1>
+<h1><?php echo $user->first_name . " " . $user->last_name; ?></h1>
 <br>
 
+<div class="container">
+    <div class="fl w25">
+        <div>
+            <img alt="" src="<?php echo PathHelper::getUserAvatarImagePath($user); ?>">
+        </div>
+    </div>
+    <div class="fr w70">
+        <div>
+            <?php echo $user->about; ?>
+        </div>
+        <div class="links">
+            <div class="fl w45">
+                <div class="item">
+                    <img alt="" src="/images/pinterest.png">
+                    <?php echo $user->pinterest_link; ?>
+                </div>
+                <div class="item">
+                    <img alt="" src="/images/instagram.png">
+                    <?php echo $user->instagram_link; ?>
+                </div>
+                <div class="item">
+                    <img alt="" src="/images/facebook.png">
+                    <?php echo $user->facebook_link; ?>
+                </div>
+            </div>
+            <div class="fr w45">
+                <div class="item">
+                    <img alt="" src="/images/phone.png">
+                    <?php echo $user->phone; ?>
+                </div>
+                <div class="item">
+                    <img alt="" src="/images/skype.png">
+                    <?php echo $user->skype; ?>
+                </div>
+                <div class="item">
+                    <img alt="" src="/images/telegram.png">
+                    <?php echo $user->telegram; ?>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<h2>Портфолио</h2>
 <div id="lightgallery">
     <?php foreach ($userGalleryImages as $userGalleryImage): ?>
         <?php $image = Image::findOne($userGalleryImage->image_id); ?>
