@@ -53,6 +53,8 @@ AppAsset::register($this);
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
                 ['label' => 'Главная', 'url' => ['/site/index']],
+                ['label' => 'О Нас', 'url' => ['/site/about']],
+                ['label' => 'Обратная связь', 'url' => ['/site/contact']],
                 [
                     'label' => 'Редактировать Новости',
                     'url' => ['/post/index'],
@@ -95,7 +97,7 @@ AppAsset::register($this);
                     '<li>'
                     . Html::beginForm(['/site/logout'], 'post')
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->first_name . ')',
+                        'Выйти (' . Yii::$app->user->identity->first_name . ')',
                         ['class' => 'btn btn-link logout']
                     )
                     . Html::endForm()

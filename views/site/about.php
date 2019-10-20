@@ -4,15 +4,16 @@
 
 use yii\helpers\Html;
 
-$this->title = 'About';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Фотоколо';
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        This is the About page. You may modify the following file to customize its content:
+        Клуб «Фотоколо» основан в 1977 году на базе Харьковского областного дворца детского и юношеского творчества.
+        С момента основания «Фотоколо» посещало множество фотолюбителей разных возрастов.
+        Среди воспитанников «Фотоколо» много победителей и призеров различных выставок, фестивалей и конкурсов.
+        Глава фотоклуба: Шишков Олег Викторович
+        Email: oleg@shishkov.com.ua
+        Почтовый адрес: Украина, г.Харьков, ул. Сумская, д. 37, ком. 42.
     </p>
-
-    <code><?= __FILE__ ?></code>
 </div>

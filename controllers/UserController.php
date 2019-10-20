@@ -32,6 +32,16 @@ class UserController extends Controller
         ];
     }
 
+
+    public function beforeAction($action)
+    {
+        $model = Yii::$app->user->getIdentity();
+        if (empty($model)) {
+            throw new NotFoundHttpException('You are not allowed to perform this action.');
+        }
+        return parent::beforeAction($action);
+    }
+
     public function actionProfile()
     {
         $model = Yii::$app->user->getIdentity();
