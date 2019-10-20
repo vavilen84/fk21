@@ -50,6 +50,19 @@ class UserGalleryImageController extends Controller
         }
     }
 
+    public function actionUserPortfolio($userId){
+        $user = User::findOne($userId);
+        if (empty($user)) {
+            throw new NotFoundHttpException('Use not found');
+        }
+        $userGalleryImages = UserGalleryImage::findAll(['user_id' => $userId, 'gallery_id' => Gallery::PORTFOLIO['id']]);
+
+        return $this->render('user-portfolio', [
+            'user' => $user,
+            'userGalleryImages' => $userGalleryImages,
+        ]);
+    }
+
     public function actionUserGallery($userId, $galleryId)
     {
         $user = User::findOne(['id' => $userId]);

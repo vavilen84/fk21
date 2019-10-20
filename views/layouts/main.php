@@ -27,6 +27,9 @@ AppAsset::register($this);
     <style>
 
     </style>
+    <base href="http://<?php echo getenv('DOMAIN'); ?>/">
+
+
 </head>
 <body>
 <?php $this->beginBody() ?>
