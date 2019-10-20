@@ -17,6 +17,7 @@ class AdminController extends Controller
         $user->last_name = 'ADMIN';
         $user->status = User::ACTIVE_STATUS;
         $user->role = User::ADMIN_ROLE;
+        $user->type = User::ADMIN_TYPE;
         $user->save();
         echo "Admin created!";
     }

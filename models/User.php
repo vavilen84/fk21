@@ -20,6 +20,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
 
     const STUDENT_TYPE = 1;
     const GRADUATE_TYPE = 2;
+    const ADMIN_TYPE = 3;
 
     public static $rolesList = [
         self::ADMIN_ROLE => 'Админ',

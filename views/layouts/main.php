@@ -30,6 +30,12 @@ AppAsset::register($this);
             position: relative;
             top: 15px;
         }
+        .footer{
+            background:#333333;
+            height:50px;
+            position: relative;
+            top:10px;
+        }
     </style>
     <base href="http://<?php echo getenv('DOMAIN'); ?>/">
 </head>
@@ -129,7 +135,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Fotokolo <?= date('Y') ?></p>
+
     </div>
 </footer>
 

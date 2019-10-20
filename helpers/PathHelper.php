@@ -28,7 +28,7 @@ class PathHelper
     {
         $image = Image::findOne(['id' => $userGalleryImage->image_id]);
         if (!$image instanceof Image) {
-            throwException('Image not found');
+            return "";
         }
         return self::getPathByImage($image);
     }
@@ -37,7 +37,7 @@ class PathHelper
     {
         $image = Image::findOne(['id' => $user->avatar]);
         if (!$image instanceof Image) {
-            throwException('Image not found');
+            return "";
         }
         return self::getPathByImage($image);
     }
