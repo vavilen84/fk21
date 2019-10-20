@@ -25,11 +25,12 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <style>
-
+        #logo {
+            position:relative;
+            top:15px;
+        }
     </style>
     <base href="http://<?php echo getenv('DOMAIN'); ?>/">
-
-
 </head>
 <body>
 <?php $this->beginBody() ?>
@@ -38,7 +39,9 @@ AppAsset::register($this);
     <?php
     NavBar::begin(
         [
-            'brandLabel' => 'Fotokolo',
+            'brandLabel' => "<a id=\"logo\" href=\"/\">
+                        <img alt=\"logo\" src=\"/images/Logo.png\">
+                    </a>",
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
                 'class' => 'navbar-inverse navbar-fixed-top',
@@ -85,12 +88,7 @@ AppAsset::register($this);
                 ],
                 [
                     'label' => 'Регистрация',
-                    'url' => ['/user/register'],
-                    'visible' => Yii::$app->user->isGuest
-                ],
-                [
-                    'label' => 'Login',
-                    'url' => ['/site/login'],
+                    'url' => ['/site/register'],
                     'visible' => Yii::$app->user->isGuest
                 ],
                 Yii::$app->user->isGuest ? (['label' => '']) :
@@ -129,8 +127,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; Fotokolo <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
 

@@ -120,26 +120,6 @@ class UserController extends Controller
         ]);
     }
 
-    public function actionRegister()
-    {
-        $model = new User();
-        if ($model->load(Yii::$app->request->post())) {
-            $model->role = User::USER_ROLE;
-            $model->status = User::NEW_STATUS;
-            $model->salt = Yii::$app->userComponent->getSalt();
-            $model->password = Yii::$app->userComponent->encodePassword($model->password, $model->salt);
-            if ($model->save()) {
-                Yii::$app->session->setFlash('success', 'Регистрация успешна!');
-                Yii::$app->user->login($model, User::DEFAULT_IDENTITY_COOKIE_DURATION);
-                return $this->redirect('/');
-            }
-        }
-
-        return $this->render('register', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
