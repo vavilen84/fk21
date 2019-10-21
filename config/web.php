@@ -54,7 +54,7 @@ $config = [
                 'host' => 'smtp.gmail.com',
                 'username' => getenv('MAIL_USERNAME'),
                 'password' => getenv('MAIL_PASSWORD'),
-                'port' => '587',
+                'port' => '465',
                 'encryption' => 'tls',
             ],
         ],
