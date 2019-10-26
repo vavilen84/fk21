@@ -105,7 +105,7 @@ class SiteController extends Controller
         $pages = new \yii\data\Pagination(
             [
                 'totalCount' => $countQuery->count(),
-                'defaultPageSize' => 1
+                'defaultPageSize' => 10
             ]
         );
         $models = $query->offset($pages->offset)
