@@ -15,7 +15,7 @@ foreach ($models as $model) {
     echo $model->description;
     echo "<br>";
     echo "<br>";
-    echo Html::a('Читать далее', Url::toRoute(['post/view', 'id' => $model->id]), ['class' => 'btn btn-default']);
+    echo Html::a('Читать далее', Url::toRoute(['site/post', 'id' => $model->id]), ['class' => 'btn btn-default']);
     echo '<hr>';
     echo "<br>";
 }

@@ -146,4 +146,16 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+
+    public function actionPost($id)
+    {
+        $model = Post::findOne($id);
+        if (empty($model)) {
+            throw new NotFoundHttpException('Post not found');
+        }
+
+        return $this->render('post', [
+            'model' => $model,
+        ]);
+    }
 }
