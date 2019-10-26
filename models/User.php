@@ -40,6 +40,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
     ];
 
     public $avatarImage;
+    public $newPassword;
 
     public function rules()
     {
@@ -47,6 +48,7 @@ class User extends UserGii implements \yii\web\IdentityInterface
         $rules[] = [['avatarImage'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'];
         $rules[] = [['email'], 'unique'];
         $rules[] = [['first_name', 'last_name', 'password', 'salt', 'status', 'role'], 'required'];
+        $rules[] = [['newPassword'], 'string'];
 
         return $rules;
     }

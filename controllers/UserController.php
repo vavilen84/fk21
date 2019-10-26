@@ -53,9 +53,15 @@ class UserController extends Controller
             throw new NotFoundHttpException('You are not allowed to perform this action.');
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', ' Сохранено успешно!');
-            return $this->redirect(['index', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (!empty($model->newPassword)) {
+                $model->salt = Yii::$app->userComponent->getSalt();
+                $model->password = Yii::$app->userComponent->encodePassword($model->newPassword, $model->salt);
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', ' Сохранено успешно!');
+                return $this->redirect(['index', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [

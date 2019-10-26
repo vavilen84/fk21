@@ -19,6 +19,7 @@ use app\models\User;
 
     <?= $form->field($model, 'status')->dropDownList(User::$statusesList)->label('Статус') ?>
 
+    <?= $form->field($model, 'newPassword')->textInput()->label('Новый пароль') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
