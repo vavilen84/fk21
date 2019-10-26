@@ -92,23 +92,23 @@ class UserGalleryImageController extends Controller
         $model = Yii::$app->user->getIdentity();
         $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            if (!empty($model->newPassword)) {
+                $model->salt = Yii::$app->userComponent->getSalt();
+                $model->password = Yii::$app->userComponent->encodePassword($model->newPassword, $model->salt);
+            }
+
             $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'avatarImage');
             if (!empty($imageUploadModel->imageFile)) {
                 $uploaded = $imageUploadModel->upload();
                 if ($uploaded instanceof Image) {
                     $model->avatar = $uploaded->id;
-                    if ($model->save()) {
-                        Yii::$app->session->setFlash('success', ' Сохранено успешно!');
-                        return $this->redirect(['profile', 'id' => $model->id]);
-                    } else {
-                        var_dump($model->getErrors());die;
-                    }
                 }
-            } else {
-                if ($model->save()) {
-                    Yii::$app->session->setFlash('success', 'Сохранено успешно!');
-                    return $this->redirect(['profile', 'id' => $model->id]);
-                }
+            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', ' Сохранено успешно!');
+                return $this->redirect(['profile', 'id' => $model->id]);
             }
         }
 
