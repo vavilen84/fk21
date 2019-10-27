@@ -63,23 +63,41 @@ AppAsset::register($this);
         [
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Главная', 'url' => ['/site/index']],
-                ['label' => 'О Нас', 'url' => ['/site/about']],
                 [
-                    'label' => 'Редактировать Новости',
-                    'url' => ['/post/index'],
-                    'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE, User::MODERATOR_ROLE])
-                ],
-                [
-                    'label' => 'Редактировать Пользователей',
-                    'url' => ['/user/index'],
+                    'label' => 'Админка',
+                    'items' => [
+                        [
+                            'label' => 'Новости',
+                            'url' => ['/post/index'],
+                        ],
+                        [
+                            'label' => 'Пользователи',
+                            'url' => ['/user/index'],
+                        ],
+                        [
+                            'label' => 'Конкурсы',
+                            'url' => ['/competition/index'],
+                        ],
+                    ],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
                 [
-                    'label' => 'Мой профиль',
-                    'url' => ['/user-gallery-image/profile'],
+                    'label' => 'Админка',
+                    'items' => [
+                        [
+                            'label' => 'Мой профиль',
+                            'url' => ['/user-gallery-image/profile'],
+                        ],
+                        [
+                            'label' => 'Новости',
+                            'url' => ['/post/index'],
+                            'visible' => Yii::$app->userComponent->userHasRole([User::MODERATOR_ROLE])
+                        ],
+                    ],
                     'visible' => !Yii::$app->user->isGuest && !Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
                 ],
+                ['label' => 'Главная', 'url' => ['/site/index']],
+                ['label' => 'О Нас', 'url' => ['/site/about']],
                 [
                     'label' => 'Галерея',
                     'items' => [
