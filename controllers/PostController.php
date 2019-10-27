@@ -53,6 +53,7 @@ class PostController extends Controller
             $user = Yii::$app->user->getIdentity();
             $model->user_id = $user->id;
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Успешно добавлено!');
                 return $this->redirect(['index']);
             }
         }
@@ -67,6 +68,7 @@ class PostController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Регистрация обновлено!');
             return $this->redirect(['index']);
         }
 

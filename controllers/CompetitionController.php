@@ -35,19 +35,14 @@ class CompetitionController extends Controller
 
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Competition::find(),
-        ]);
+        $dataProvider = new ActiveDataProvider(
+            [
+                'query' => Competition::find(),
+            ]
+        );
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
         ]);
     }
 
@@ -55,8 +50,14 @@ class CompetitionController extends Controller
     {
         $model = new Competition();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (!empty($model->deadline_at)) {
+                $model->deadline_at = strtotime($model->deadline_at);
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Успешно добавлено!');
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
@@ -68,8 +69,14 @@ class CompetitionController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if (!empty($model->deadline_at)) {
+                $model->deadline_at = strtotime($model->deadline_at);
+            }
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Успешно обновлено!');
+                return $this->redirect(['update', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -79,7 +86,9 @@ class CompetitionController extends Controller
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = Competition::DELETED_STATUS;
+        $model->save();
 
         return $this->redirect(['index']);
     }

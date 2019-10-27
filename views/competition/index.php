@@ -36,12 +36,12 @@ $this->title = 'Конкурсы';
             [
                 'label' => 'Дедлайн',
                 'attribute' => 'deadline_at',
-                'format' => ['date', 'php:Y-m-d']
+                'format' => ['date', 'php:d-M-Y']
             ],
-            //'deadline_at',
-            //'created_at',
-            //'updated_at',
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 
