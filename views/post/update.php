@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\models\Post */
 
 $this->title = 'Редактировать новость';
+$this->params['breadcrumbs'][] = ['label' => 'Новости', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="post-update">
 

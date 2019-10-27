@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $model app\models\Competition */
 
 $this->title = 'Создать конкурс';
+$this->params['breadcrumbs'][] = ['label' => 'Конкурсы', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="competition-create">
 

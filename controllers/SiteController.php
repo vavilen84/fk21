@@ -68,6 +68,7 @@ class SiteController extends Controller
         $users = User::find()->where(['type' => $type, 'status' => User::ACTIVE_STATUS])->all();
 
         return $this->render('student', [
+            'type' => $type,
             'users' => $users,
         ]);
     }

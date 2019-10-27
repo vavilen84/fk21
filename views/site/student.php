@@ -2,7 +2,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use app\helpers\PathHelper;
-
+use app\models\User;
+$this->title = User::$typesTitleList[$type];
+$this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
 ?>
 <style>
     #user-list li {

@@ -39,6 +39,11 @@ class User extends UserGii implements \yii\web\IdentityInterface
         self::GRADUATE_TYPE => 'Выпускник'
     ];
 
+    public static $typesTitleList = [
+        self::STUDENT_TYPE => 'Ученики',
+        self::GRADUATE_TYPE => 'Выпускники'
+    ];
+
     public $avatarImage;
     public $newPassword;
 

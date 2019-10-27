@@ -5,7 +5,10 @@ use yii\helpers\Url;
 use app\helpers\PathHelper;
 use yii\widgets\ActiveForm;
 use app\models\Image;
-
+use app\models\User;
+$this->title = 'Портфолио';
+$this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
+$this->params['breadcrumbs'][] = ['label' => User::$typesTitleList[$user->type], 'url' => ['/site/user', 'type' => $user->type]];
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
 <link type="text/css" rel="stylesheet" href="/libs/lightGallery-master/src/css/lightgallery.css"/>
