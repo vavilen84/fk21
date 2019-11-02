@@ -10,11 +10,12 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property string $content
+ * @property string $description
  * @property int $user_id
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
- * @property string $description
+ * @property int $image_id
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -33,7 +34,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'content', 'description'], 'string'],
-            [['user_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'status', 'created_at', 'updated_at', 'image_id'], 'integer'],
         ];
     }
 
@@ -46,11 +47,12 @@ class Post extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'content' => 'Content',
+            'description' => 'Description',
             'user_id' => 'User ID',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'description' => 'Description',
+            'image_id' => 'Image ID',
         ];
     }
 }

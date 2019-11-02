@@ -18,10 +18,20 @@ class Post extends PostGii
         self::DELETED_STATUS => 'Удалено'
     ];
 
+    public $image;
+
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
         ];
+    }
+
+    public function rules()
+    {
+        $rules = parent::rules();
+        $rules[] = [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'];
+
+        return $rules;
     }
 }

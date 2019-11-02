@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
+use app\models\ImageUpload;
 
 class PostController extends Controller
 {
@@ -48,11 +49,20 @@ class PostController extends Controller
     public function actionCreate()
     {
         $model = new Post();
-
+        $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post())) {
             $user = Yii::$app->user->getIdentity();
             $model->user_id = $user->id;
             if ($model->save()) {
+
+                $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'image');
+                if (!empty($imageUploadModel->imageFile)) {
+                    $uploaded = $imageUploadModel->upload();
+                    if ($uploaded instanceof Image) {
+                        $model->image_id = $uploaded->id;
+                    }
+                }
+
                 Yii::$app->session->setFlash('success', 'Успешно добавлено!');
                 return $this->redirect(['index']);
             }
@@ -66,10 +76,21 @@ class PostController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $imageUploadModel = new ImageUpload();
+        if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Регистрация обновлено!');
-            return $this->redirect(['index']);
+            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'image');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+                    $model->image_id = $uploaded->id;
+                }
+            }
+
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Успешно обновлено!');
+                return $this->redirect(['index']);
+            }
         }
 
         return $this->render('update', [

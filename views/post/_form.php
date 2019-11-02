@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Post;
+use app\helpers\PathHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Post */
@@ -14,6 +15,11 @@ use app\models\Post;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'title')->textarea(['rows' => 6])->label('Название') ?>
+
+    <?php if (!empty($model->image_id)): ?>
+        <img src="<?php echo PathHelper::getPathByImageId($model->image_id); ?>" alt="">
+    <?php endif; ?>
+    <?= $form->field($model, 'image')->fileInput()->label('Изображение') ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6])->label('Описание') ?>
 

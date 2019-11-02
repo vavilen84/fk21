@@ -24,6 +24,15 @@ class PathHelper
         return $relPath . DIRECTORY_SEPARATOR . $image->uuid . '.' . $image->ext;
     }
 
+    public static function getPathByImageId(int $imageId): string
+    {
+        $image = Image::findOne($imageId);
+        if (!empty($image)) {
+            return self::getPathByImage($image);
+        }
+        return '';
+    }
+
     public static function getUserImageGalleryPath(UserGalleryImage $userGalleryImage): string
     {
         $image = Image::findOne(['id' => $userGalleryImage->image_id]);
