@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Image;
+use Faker\Test\Provider\en_US\CompanyTest;
 use Yii;
 use app\models\UserGalleryImage;
 use app\models\UserGalleryImageSearch;
@@ -13,6 +14,9 @@ use app\models\User;
 use app\models\Gallery;
 use app\models\ImageUpload;
 use yii\web\UploadedFile;
+use app\models\Competition;
+use app\models\CompetitionUserImage;
+use app\models\
 
 class UserGalleryImageController extends Controller
 {
@@ -87,6 +91,55 @@ class UserGalleryImageController extends Controller
         ]);
     }
 
+    public function actionCompetitionParticipate($userId, $competitionId)
+    {
+        $user = User::findOne($userId);
+        if (empty($user)) {
+            throw new NotFoundHttpException('User not found.');
+        }
+        $competition = Competition::findOne($competitionId);
+        if (empty($competition)) {
+            throw new NotFoundHttpException('Competition not found.');
+        }
+
+        $imageUploadModel = new ImageUpload();
+        if ($imageUploadModel->load(Yii::$app->request->post())) {
+            // delete old image
+            $oldImage = CompetitionUserImage::findOne(['user_id' => $userId, 'competition_id' => $competitionId]);
+            if (!empty($oldImage)) {
+                $oldImage->delete();
+            }
+            // add new one
+            $imageUploadModel->imageFile = UploadedFile::getInstance($imageUploadModel, 'imageFile');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+
+                    $competitionUserImage = new CompetitionUserImage();
+                    $competitionUserImage->competition_id = $competitionId;
+                    $competitionUserImage->user_id = $userId;
+                    $competitionUserImage->image_id = $uploaded->id;
+
+                    if($competitionUserImage->save()){
+                        Yii::$app->session->setFlash('success', ' Сохранено успешно!');
+                        return $this->redirect(['profile', 'id' => $user->id]);
+                    }
+                }
+            }
+        }
+        $existingCompetitionUserImage = CompetitionUserImage::findOne(['user_id' => $userId, 'competition_id' => $competitionId]);
+        if (!empty($existingCompetitionUserImage)) {
+            $image =
+        }
+
+        return $this->render('competition-participate', [
+            'existingImage' => $existingImage,
+            'model' => $imageUploadModel,
+            'user' => $user,
+            'competition' => $competition,
+        ]);
+    }
+
     public function actionProfile()
     {
         $model = Yii::$app->user->getIdentity();
@@ -112,7 +165,10 @@ class UserGalleryImageController extends Controller
             }
         }
 
+        $activeCompetitions = Competition::find()->where(['status' => Competition::RESULTS_NOT_PUBLISHED_STATUS])->all();
+
         return $this->render('profile', [
+            'activeCompetitions' => $activeCompetitions,
             'model' => $model,
         ]);
     }

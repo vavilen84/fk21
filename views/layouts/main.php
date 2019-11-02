@@ -62,6 +62,22 @@ AppAsset::register($this);
         [
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
+                ['label' => 'Главная', 'url' => ['/site/index']],
+                ['label' => 'О Нас', 'url' => ['/site/about']],
+                [
+                    'label' => 'Галерея',
+                    'items' => [
+                        [
+                            'label' => 'Ученики',
+                            'url' => ['/site/user', 'type' => User::STUDENT_TYPE],
+                        ],
+                        [
+                            'label' => 'Выпускники',
+                            'url' => ['/site/user', 'type' => User::GRADUATE_TYPE],
+                        ],
+                    ],
+                ],
+                ['label' => '|', 'url' => null],
                 [
                     'label' => 'Админка',
                     'items' => [
@@ -94,21 +110,6 @@ AppAsset::register($this);
                         ],
                     ],
                     'visible' => !Yii::$app->user->isGuest && !Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
-                ],
-                ['label' => 'Главная', 'url' => ['/site/index']],
-                ['label' => 'О Нас', 'url' => ['/site/about']],
-                [
-                    'label' => 'Галерея',
-                    'items' => [
-                        [
-                            'label' => 'Ученики',
-                            'url' => ['/site/user', 'type' => User::STUDENT_TYPE],
-                        ],
-                        [
-                            'label' => 'Выпускники',
-                            'url' => ['/site/user', 'type' => User::GRADUATE_TYPE],
-                        ],
-                    ],
                 ],
                 [
                     'label' => 'Войти',

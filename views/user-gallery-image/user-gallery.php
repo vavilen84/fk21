@@ -5,6 +5,10 @@ use yii\helpers\Url;
 use app\helpers\PathHelper;
 use yii\widgets\ActiveForm;
 use app\models\Image;
+
+$this->title = $gallery->title;
+$this->params['breadcrumbs'][] = ['label' => 'Мой профиль', 'url' => ['/user-gallery-image/profile']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <style>

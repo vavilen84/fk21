@@ -24,6 +24,15 @@ use app\models\User;
     <?php endforeach; ?>
     <br>
     <br>
+    <?php foreach ($activeCompetitions as $competition): ?>
+        <?php echo Html::a(
+            'Учавствовать в конкурсе: ' . $competition->title,
+            Url::toRoute(['user-gallery-image/competition-participate', 'userId' => $model->id, 'competitionId' => $competition->id]),
+            ['class' => 'btn btn-success']
+        ) ?>
+        <br>
+        <br>
+    <?php endforeach; ?>
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
