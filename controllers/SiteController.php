@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\StringHelper;
+use app\models\ResetPasswordForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -86,7 +87,8 @@ class SiteController extends Controller
         ];
     }
 
-    public function actionUserPortfolio($userId){
+    public function actionUserPortfolio($userId)
+    {
         $user = User::findOne($userId);
         if (empty($user)) {
             throw new NotFoundHttpException('Use not found');
@@ -99,6 +101,28 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionResetPassword($token)
+    {
+        $user = User::find()->where(['password_reset_token' => $token])->one();
+        if (empty($user)) {
+            throw new NotFoundHttpException('Use not found');
+        }
+        $model = new ResetPasswordForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user->salt = Yii::$app->userComponent->getSalt();
+            $user->password = Yii::$app->userComponent->encodePassword($model->password, $user->salt);
+            $user->password_reset_token = null;
+            if ($user->save()) {
+                Yii::$app->user->login($user, User::DEFAULT_IDENTITY_COOKIE_DURATION);
+                Yii::$app->session->setFlash('success', 'Пароль удачно изменен!');
+                return $this->redirect('/');
+            }
+        }
+        return $this->render('reset-password', [
+            'model' => $model
+        ]);
+    }
+
     public function actionForgotPassword()
     {
         $model = new ForgotPasswordForm();
@@ -107,16 +131,17 @@ class SiteController extends Controller
             if ($user instanceof User) {
                 $user->password_reset_token = StringHelper::getRandomString(50);
                 if ($user->save()) {
-                    $link = "<a href='//" . getenv('DOMAIN') . '/reset-password/' . $user->password_reset_token . ">Reset Password</a>";
+                    $format = "<a target='_blank' href='%s://%s/site/reset-password?token=%s'>Reset Password</a>";
+                    $link = sprintf(
+                        $format,
+                        getenv('PROTOCOL'),
+                        getenv('DOMAIN'),
+                        $user->password_reset_token
+                    );
                     $body = 'Follow the link to change the password: ' . $link;
-                    Yii::$app->mailer->compose()
-                        ->setFrom(getenv('MAIL_FROM'))
-                        ->setTo($user->email)
-                        ->setSubject('Сброс пароля')
-                        ->setHtmlBody($body)
-                        ->send();
+                    Yii::$app->mailerComponent->send($user->email, "Reset password", $body);
                     Yii::$app->session->setFlash('success', 'Вам отправлено письмо для сброса пароля!');
-                    $this->redirect(['/']);
+                    return $this->goHome();
                 }
             } else {
                 $model->addError("email", "Пользователя с такой почтой не зарегистрирован");

@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]
     ); ?>
 
-    <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
+    <?= $form->field($model, 'password')->passwordInput()->label('Пароль') ?>
 
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
