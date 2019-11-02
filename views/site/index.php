@@ -3,7 +3,7 @@ use yii\grid\GridView;
 use yii\helpers\StringHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
+use app\helpers\PathHelper;
 /* @var $this yii\web\View */
 
 $this->title = 'Home | Fotokolo';
@@ -11,6 +11,12 @@ $this->title = 'Home | Fotokolo';
 <?php
 foreach ($models as $model) {
     echo "<h2>" . $model->title . "</h2>";
+
+    if (!empty($model->image_id)) {
+        echo "<br>";
+        echo "<img src=" . PathHelper::getPathByImageId($model->image_id) . " alt=''>";
+    }
+
     echo "<br>";
     echo $model->description;
     echo "<br>";

@@ -10,6 +10,8 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
 use app\models\ImageUpload;
+use yii\web\UploadedFile;
+use app\models\Image;
 
 class PostController extends Controller
 {
