@@ -52,6 +52,15 @@ class SiteController extends Controller
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Регистрация успешна!');
                 Yii::$app->user->login($model, User::DEFAULT_IDENTITY_COOKIE_DURATION);
+                $format = "<a target='_blank' href='%s://%s/user/update/%d'>Moderate User</a>";
+                $link = sprintf(
+                    $format,
+                    getenv('PROTOCOL'),
+                    getenv('DOMAIN'),
+                    $model->id
+                );
+                $body = 'New user has just registered and requires moderation.Proceed by click the link: ' . $link;
+                Yii::$app->mailerComponent->send(getenv('ADMIN_EMAIL'), "New User", $body);
                 return $this->redirect('/');
             }
         }
