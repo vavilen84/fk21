@@ -16,7 +16,6 @@ use app\models\ImageUpload;
 use yii\web\UploadedFile;
 use app\models\Competition;
 use app\models\CompetitionUserImage;
-use app\models\
 
 class UserGalleryImageController extends Controller
 {
@@ -127,9 +126,11 @@ class UserGalleryImageController extends Controller
                 }
             }
         }
+
+        $existingImage = null;
         $existingCompetitionUserImage = CompetitionUserImage::findOne(['user_id' => $userId, 'competition_id' => $competitionId]);
         if (!empty($existingCompetitionUserImage)) {
-            $image =
+            $existingImage = Image::findOne($existingCompetitionUserImage->image_id);
         }
 
         return $this->render('competition-participate', [

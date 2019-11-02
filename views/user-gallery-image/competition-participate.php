@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $form = ActiveForm::begin(); ?>
 
     <?php if (!empty($existingImage)): ?>
-        <img src="<?php echo PathHelper::get($model); ?>" alt="">
+        <img src="<?php echo PathHelper::getPathByImage($existingImage); ?>" alt="">
     <?php endif; ?>
     <?= $form->field($model, 'imageFile')->fileInput()->label('Фото') ?>
 
