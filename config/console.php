@@ -20,6 +20,9 @@ $config = [
         'userComponent' => [
             'class' => 'app\components\UserComponent'
         ],
+        'mailerComponent' => [
+            'class' => 'app\components\MailerComponent'
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],

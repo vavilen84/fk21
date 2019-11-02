@@ -26,12 +26,31 @@ $config = [
         'userComponent' => [
             'class' => 'app\components\UserComponent'
         ],
+        'mailerComponent' => [
+            'class' => 'app\components\MailerComponent'
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '123456',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            // send all mails to a file by default. You have to set
+            // 'useFileTransport' to false and configure a transport
+            // for the mailer to send real emails.
+            'useFileTransport' => getenv('USE_FILE_TRANSPORT'),
+//            'viewPath' => '@common/mail',
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => getenv('MAIL_USERNAME'),
+                'password' => getenv('MAIL_PASSWORD'),
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
         ],
         'user' => [
             'identityClass' => 'app\models\User',

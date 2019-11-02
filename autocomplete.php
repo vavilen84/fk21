@@ -30,6 +30,7 @@ abstract class BaseApplication extends yii\base\Application
  * @property User $user User component.
  * @property \app\components\UserComponent $userComponent
  * @property \app\components\BackupComponent $backup
+ * @property \app\components\MailerComponent $mailerComponent
  */
 class WebApplication extends yii\web\Application
 {
@@ -40,6 +41,7 @@ class WebApplication extends yii\web\Application
  * Include only Console application related components here
  *
  * @property \app\components\BackupComponent $backup
+ * @property \app\components\MailerComponent $mailerComponent
  */
 class ConsoleApplication extends yii\console\Application
 {

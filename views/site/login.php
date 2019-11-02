@@ -34,6 +34,13 @@ $this->title = 'Войти';
         ]
     )->label('Запомнить меня')?>
 
+
+    <div class="form-group field-loginform-rememberme">
+        <div class="col-lg-offset-1 col-lg-3">
+            <?php echo Html::a('Забыли пароль?', Url::toRoute(['site/forgot-password'])) ?>
+        </div>
+    </div>
+
     <div class="form-group">
         <div class="col-lg-offset-1 col-lg-11">
             <?= Html::submitButton('Войти', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>

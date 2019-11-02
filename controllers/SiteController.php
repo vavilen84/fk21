@@ -99,6 +99,35 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionForgotPassword()
+    {
+        $model = new ForgotPasswordForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $user = User::findByEmail($model->email);
+            if ($user instanceof User) {
+                $user->password_reset_token = StringHelper::getRandomString(50);
+                if ($user->save()) {
+                    $link = "<a href='//" . getenv('DOMAIN') . '/reset-password/' . $user->password_reset_token . ">Reset Password</a>";
+                    $body = 'Follow the link to change the password: ' . $link;
+                    Yii::$app->mailer->compose()
+                        ->setFrom(getenv('MAIL_FROM'))
+                        ->setTo($user->email)
+                        ->setSubject('Сброс пароля')
+                        ->setHtmlBody($body)
+                        ->send();
+                    Yii::$app->session->setFlash('success', 'Вам отправлено письмо для сброса пароля!');
+                    $this->redirect(['/']);
+                }
+            } else {
+                $model->addError("email", "Пользователя с такой почтой не зарегистрирован");
+            }
+        }
+
+        return $this->render('forgot-password', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionIndex()
     {
         $query = Post::find()->where(['status' => Post::PUBLISHED_STATUS])->orderBy('id DESC');
