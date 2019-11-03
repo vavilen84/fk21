@@ -37,21 +37,47 @@ class PostController extends Controller
         return parent::beforeAction($action);
     }
 
-    public function actionIndex()
+    public function actionAds()
     {
-        $searchModel = new PostSearch();
+        $searchModel = new PostSearch(Post::AD_TYPE);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'type' => Post::AD_TYPE,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    public function actionCreate()
+    public function actionArticles()
+    {
+        $searchModel = new PostSearch(Post::ARTICLE_TYPE);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'type' => Post::ARTICLE_TYPE,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionNews()
+    {
+        $searchModel = new PostSearch(Post::NEWS_TYPE);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'type' => Post::NEWS_TYPE,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCreate($type)
     {
         $model = new Post();
         $imageUploadModel = new ImageUpload();
+        $model->type = $type;
         if ($model->load(Yii::$app->request->post())) {
             $user = Yii::$app->user->getIdentity();
             $model->user_id = $user->id;
@@ -66,11 +92,35 @@ class PostController extends Controller
                 }
 
                 Yii::$app->session->setFlash('success', 'Успешно добавлено!');
-                return $this->redirect(['index']);
+                switch ($model->type) {
+                    case Post::NEWS_TYPE:
+                        return $this->redirect(['news']);
+                        break;
+                    case Post::AD_TYPE:
+                        return $this->redirect(['ads']);
+                        break;
+                    case Post::ARTICLE_TYPE:
+                        return $this->redirect(['articles']);
+                        break;
+                }
             }
         }
 
+        $backUrl = null;
+        switch ($model->type) {
+            case Post::NEWS_TYPE:
+                $backUrl = 'news';
+                break;
+            case Post::AD_TYPE:
+                $backUrl = 'ads';
+                break;
+            case Post::ARTICLE_TYPE:
+                $backUrl = 'articles';
+                break;
+        }
+
         return $this->render('create', [
+            'backUrl' => $backUrl,
             'model' => $model,
         ]);
     }
@@ -91,11 +141,34 @@ class PostController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Успешно обновлено!');
-                return $this->redirect(['index']);
+                switch ($model->type) {
+                    case Post::NEWS_TYPE:
+                        return $this->redirect(['news']);
+                        break;
+                    case Post::AD_TYPE:
+                        return $this->redirect(['ads']);
+                        break;
+                    case Post::ARTICLE_TYPE:
+                        return $this->redirect(['articles']);
+                        break;
+                }
             }
+        }
+        $backUrl = null;
+        switch ($model->type) {
+            case Post::NEWS_TYPE:
+                $backUrl = 'news';
+                break;
+            case Post::AD_TYPE:
+                $backUrl = 'ads';
+                break;
+            case Post::ARTICLE_TYPE:
+                $backUrl = 'articles';
+                break;
         }
 
         return $this->render('update', [
+            'backUrl' => $backUrl,
             'model' => $model,
         ]);
     }

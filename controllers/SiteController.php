@@ -162,7 +162,8 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionIndex()
+    // TODO not userd for now
+    public function actionPosts()
     {
         $query = Post::find()->where(['status' => Post::PUBLISHED_STATUS])->orderBy('id DESC');
         $countQuery = clone $query;
@@ -179,6 +180,19 @@ class SiteController extends Controller
         return $this->render('index', [
             'models' => $models,
             'pages' => $pages,
+        ]);
+    }
+
+    public function actionIndex()
+    {
+        $news = Post::find()->where(['type' => Post::NEWS_TYPE])->limit(3)->orderBy('id DESC')->all();
+        $ads = Post::find()->where(['type' => Post::AD_TYPE])->orderBy('id DESC')->all();
+        $articles = Post::find()->where(['type' => Post::ARTICLE_TYPE])->limit(2)->orderBy('id DESC')->all();
+
+        return $this->render('index', [
+            'news' => $news,
+            'ads' => $ads,
+            'articles' => $articles,
         ]);
     }
 

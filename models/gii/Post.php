@@ -16,6 +16,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  * @property int $image_id
+ * @property int $type
  */
 class Post extends \yii\db\ActiveRecord
 {
@@ -34,7 +35,7 @@ class Post extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'content', 'description'], 'string'],
-            [['user_id', 'status', 'created_at', 'updated_at', 'image_id'], 'integer'],
+            [['user_id', 'status', 'created_at', 'updated_at', 'image_id', 'type'], 'integer'],
         ];
     }
 
@@ -53,6 +54,7 @@ class Post extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'image_id' => 'Image ID',
+            'type' => 'Type',
         ];
     }
 }

@@ -23,9 +23,11 @@ use app\helpers\PathHelper;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6])->label('Описание') ?>
 
-    <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className())->label('Новость') ?>
+    <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className())->label('Содержание') ?>
 
     <?= $form->field($model, 'status')->dropDownList(Post::$statusesList)->label('Статус') ?>
+
+    <?= $form->field($model, 'type')->dropDownList(Post::$typesList)->label('Тип') ?>
 
 
     <div class="form-group">

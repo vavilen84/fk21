@@ -50,7 +50,7 @@ AppAsset::register($this);
     NavBar::begin(
         [
             'brandLabel' => "<a id=\"logo\" href=\"/\">
-                        <img alt=\"logo\" src=\"/images/Logo.png\">
+                        <img alt=\"logo\" src=\"/images/Logo.svg\">
                     </a>",
             'brandUrl' => Yii::$app->homeUrl,
             'options' => [
@@ -83,7 +83,15 @@ AppAsset::register($this);
                     'items' => [
                         [
                             'label' => 'Новости',
-                            'url' => ['/post/index'],
+                            'url' => ['/post/news'],
+                        ],
+                        [
+                            'label' => 'Объявления',
+                            'url' => ['/post/ads'],
+                        ],
+                        [
+                            'label' => 'Статьи',
+                            'url' => ['/post/articles'],
                         ],
                         [
                             'label' => 'Пользователи',
@@ -92,6 +100,10 @@ AppAsset::register($this);
                         [
                             'label' => 'Конкурсы',
                             'url' => ['/competition/index'],
+                        ],
+                        [
+                            'label' => 'Мой профиль',
+                            'url' => ['/user-gallery-image/profile'],
                         ],
                     ],
                     'visible' => Yii::$app->userComponent->userHasRole([User::ADMIN_ROLE])
@@ -104,7 +116,7 @@ AppAsset::register($this);
                             'url' => ['/user-gallery-image/profile'],
                         ],
                         [
-                            'label' => 'Новости',
+                            'label' => 'Записи',
                             'url' => ['/post/index'],
                             'visible' => Yii::$app->userComponent->userHasRole([User::MODERATOR_ROLE])
                         ],

@@ -10,17 +10,15 @@ use app\models\Post;
 /* @var $searchModel app\models\PostSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Новости';
+$this->title = Post::$typesList[$type];
 ?>
 <div class="post-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Добавить новость', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить', ['create', 'type' => $type], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

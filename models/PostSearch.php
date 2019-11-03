@@ -11,6 +11,13 @@ use app\models\Post;
  */
 class PostSearch extends Post
 {
+    protected $type;
+
+    public function __construct(int $type)
+    {
+        $this->type = $type;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -75,6 +82,9 @@ class PostSearch extends Post
                 ]
             ]
         );
+        if (!empty($this->type)) {
+            $query->andFilterWhere(['in', 'type', $this->type]);
+        }
 
 
         return $dataProvider;

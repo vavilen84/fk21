@@ -12,10 +12,20 @@ class Post extends PostGii
     const DRAFT_STATUS = 2;
     const DELETED_STATUS = 3;
 
+    const NEWS_TYPE = 1;
+    const AD_TYPE = 2;
+    const ARTICLE_TYPE = 3;
+
     public static $statusesList = [
         self::PUBLISHED_STATUS => 'Опубликовано',
         self::DRAFT_STATUS => 'Черновик',
         self::DELETED_STATUS => 'Удалено'
+    ];
+
+    public static $typesList = [
+        self::NEWS_TYPE => 'Новости',
+        self::AD_TYPE => 'Объявления',
+        self::ARTICLE_TYPE => 'Статьи'
     ];
 
     public $image;
