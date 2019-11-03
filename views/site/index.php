@@ -10,48 +10,183 @@ use app\models\User;
 
 $this->title = 'Home | Fotokolo';
 ?>
+<style>
+    .left {
+        float: left;
+    }
+    .right{
+        float:right;
+    }
+    .clear {
+        clear: both;
+    }
+
+    #index-page-news .item {
+        border: 1px solid #cecece;
+        width: 33%;
+    }
+
+    #index-page-news .item .image {
+        height: 255px;
+        overflow: hidden;
+    }
+
+    #index-page-news .item img {
+        max-height: 250px;
+    }
+
+    .created_at {
+        color: gray;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+    .mini-block-wrap {
+        padding: 10px 20px;
+    }
+
+    #index-page-news {
+        position: relative;
+    }
+
+    #index-page-news .banner,
+    #index-page-ad .banner,
+    #index-page-articles .banner {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        background: black;
+        color: rgb(250, 50, 70);
+        padding: 5px 10px;
+    }
+
+    #index-page-news a {
+        text-decoration: none;
+        color: black;
+    }
+
+    #index-page-news .read-more,
+    #index-page-ad .read-more,
+    #index-page-articles .read-more {
+        color: rgb(250, 50, 70);
+        font-weight: bold;
+        font-size: 16px;
+        text-decoration: underline;
+    }
+
+    #index-page-ad {
+        position: relative;
+    }
+
+    #index-page-ad .item {
+        border: 1px solid gray;
+        width: 100%;
+        padding: 20px 20px 20px 370px;
+    }
+
+    #index-page-ad a {
+        color: black;
+    }
+
+    #index-page-ad a:hover {
+        text-decoration: none;
+    }
+
+    #index-page-ad .title {
+        font-size: 38px;
+    }
+
+    #index-page-articles .item {
+        width: 50%;
+        border: 1px solid gray;
+    }
+
+    #index-page-articles .item .image {
+        height: 405px;
+        overflow: hidden;
+    }
+
+    #index-page-articles .item img {
+        max-height: 400px;
+    }
+    #index-page-articles{
+        position:relative;
+    }
+    .author-link{
+        color: rgb(250, 50, 70);
+        text-decoration: underline;
+    }
+</style>
 
 <div id="index-page-news">
+    <div class="banner">Новости</div>
     <?php foreach ($news as $v): ?>
-        <div class="item">
-            <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
-            <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
-            <span class="title"><?php echo $v->title; ?></span>
-            <a href="<?php echo Url::toRoute(['site/post', 'id' => $model->id]); ?>" class="read-more">...</a>
+        <div class="item left">
+            <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
+                <div class="image">
+                    <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
+                </div>
+                <div class="mini-block-wrap">
+                    <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
+                </div>
+                <div class="mini-block-wrap">
+                    <span class="title"><?php echo $v->title; ?></span>
+                </div>
+                <div class="mini-block-wrap">
+                    <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
+                </div>
+            </a>
         </div>
     <?php endforeach; ?>
+    <div class="clear"></div>
 </div>
 
 <div id="index-page-ad">
-    <?php foreach ($news as $v): ?>
+    <div class="banner">Объявления</div>
+    <?php foreach ($ads as $v): ?>
         <div class="item">
-            <span class="title"><?php echo $ad->title; ?></span>
-            <a href="<?php echo Url::toRoute(['site/post', 'id' => $ad->id]); ?>" class="read-more">...</a>
+            <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
+                <div class="mini-block-wrap">
+                    <span class="title"><?php echo $v->title; ?></span>
+                </div>
+                <div class="mini-block-wrap">
+                    <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
+                </div>
+            </a>
         </div>
     <?php endforeach; ?>
 </div>
 
 
 <div id="index-page-articles">
-    <?php foreach ($news as $v): ?>
-        <div class="item">
-            <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
+    <div class="banner">Статьи</div>
+    <?php foreach ($articles as $v): ?>
+        <div class="item left">
+            <div>
+                <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
+            </div>
             <div>
                 <div class="left">
-                    <?php echo $v->title; ?>
+                    <div class="mini-block-wrap" id="article-title-wrap">
+                        <?php echo $v->title; ?>
+                    </div>
                 </div>
-                <div class="right">
-                    <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
-                    <div>Автор</div>
-                    <?php $author = User::findOne($v->user_id); ?>
-                    <div><a href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
+                <div class="right" style="width:170px;">
+                    <div class="mini-block-wrap">
+                        <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
+                        <div style="color:gray;">Автор:</div>
+                        <?php $author = User::findOne($v->user_id); ?>
+                        <div><a class="author-link" href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
+                    </div>
                 </div>
                 <div class="clear"></div>
-
             </div>
-
-            <span class="title"><?php echo $v->title; ?></span>
-            <a href="<?php echo Url::toRoute(['site/post', 'id' => $model->id]); ?>" class="read-more">...</a>
+            <div class="mini-block-wrap">
+                <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
+            </div>
         </div>
     <?php endforeach; ?>
+    <div class="clear"></div>
 </div>
