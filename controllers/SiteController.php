@@ -15,7 +15,7 @@ use app\models\ForgotPasswordForm;
 use yii\web\NotFoundHttpException;
 use app\models\UserGalleryImage;
 use app\models\Gallery;
-
+use app\models\Competition;
 class SiteController extends Controller
 {
     public function behaviors()
@@ -188,11 +188,17 @@ class SiteController extends Controller
         $news = Post::find()->where(['type' => Post::NEWS_TYPE])->limit(3)->orderBy('id DESC')->all();
         $ads = Post::find()->where(['type' => Post::AD_TYPE])->orderBy('id DESC')->all();
         $articles = Post::find()->where(['type' => Post::ARTICLE_TYPE])->limit(2)->orderBy('id DESC')->all();
+        $users = User::find()->all();
+        shuffle($users);
+        $users = array_slice($users, 0, 4);
+        $competitions = Competition::find()->where(['!=', 'status', Competition::DELETED_STATUS])->all();
 
         return $this->render('index', [
             'news' => $news,
             'ads' => $ads,
             'articles' => $articles,
+            'users' => $users,
+            'competitions' => $competitions
         ]);
     }
 

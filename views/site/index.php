@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\helpers\PathHelper;
 use app\models\User;
+use app\models\Competition;
 
 /* @var $this yii\web\View */
 
@@ -14,9 +15,8 @@ $this->title = 'Home | Fotokolo';
     .left {
         float: left;
     }
-
-    .right {
-        float: right;
+    .right{
+        float:right;
     }
 
     .clear {
@@ -55,7 +55,9 @@ $this->title = 'Home | Fotokolo';
 
     #index-page-news .banner,
     #index-page-ad .banner,
-    #index-page-articles .banner {
+    #index-page-articles .banner,
+    #users .banner,
+    #competitions .banner{
         position: absolute;
         top: 1px;
         left: 1px;
@@ -113,9 +115,12 @@ $this->title = 'Home | Fotokolo';
     #index-page-articles .item img {
         max-height: 400px;
     }
-
-    #index-page-articles {
-        position: relative;
+    #article-title-wrap {
+        color: black;
+        font-weight: bold;
+    }
+    #index-page-articles{
+        position:relative;
     }
 
     .author-link {
@@ -130,6 +135,29 @@ $this->title = 'Home | Fotokolo';
     .read-more-block{
         position: absolute;
         bottom:10px;
+    }
+    #users .item{
+        width:25%;
+        height:300px;
+        text-align: center;
+    }
+    #users img{
+        max-height: 100px;
+    }
+    #users {
+        padding-top:60px;
+    }
+    #users #first-last-name {
+        font-weight:bold;
+        color: rgb(250, 50, 70);
+        text-decoration: underline;
+    }
+    .user-avatar{
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    #users {
+        position:relative;
     }
 
 </style>
@@ -204,30 +232,65 @@ $this->title = 'Home | Fotokolo';
     <div class="banner">Статьи</div>
     <?php foreach ($articles as $v): ?>
         <div class="item left">
-            <div>
-                <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
-            </div>
-            <div>
-                <div class="left">
-                    <div class="mini-block-wrap" id="article-title-wrap">
-                        <?php echo $v->title; ?>
-                    </div>
+            <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
+                <div>
+                    <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
                 </div>
-                <div class="right" style="width:170px;">
-                    <div class="mini-block-wrap">
-                        <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
-                        <div style="color:gray;">Автор:</div>
-                        <?php $author = User::findOne($v->user_id); ?>
-                        <div><a class="author-link"
-                                href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
+                <div>
+                    <div class="left">
+                        <div class="mini-block-wrap" id="article-title-wrap">
+                            <?php echo $v->title; ?>
+                        </div>
                     </div>
+                    <div class="right" style="width:170px;">
+                        <div class="mini-block-wrap">
+                            <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
+                            <div style="color:gray;">Автор:</div>
+                            <?php $author = User::findOne($v->user_id); ?>
+                            <div><a class="author-link" href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="clear"></div>
-            </div>
-            <div class="mini-block-wrap read-more-block">
-                <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
-            </div>
+                <div class="mini-block-wrap">
+                    <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
+                </div>
+            </a>
         </div>
     <?php endforeach; ?>
     <div class="clear"></div>
+</div>
+
+<div id="users">
+    <div class="banner">Авторы</div>
+    <?php foreach ($users as $v): ?>
+    <div class="item left">
+        <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
+            <div class="user-avatar">
+                <img src="<?php echo PathHelper::getUserAvatarImagePath($v); ?> " alt=''>
+            </div>
+            <div class="mini-block-wrap" id="first-last-name">
+                <?php echo $v->first_name . ' ' . $v->last_name; ?>
+            </div>
+        </a>
+    </div>
+    <?php endforeach; ?>
+    <div class="clear"></div>
+</div>
+
+<div id="competitions">
+    <div class="banner">Конкурсы</div>
+    <?php foreach ($competitions as $v): ?>
+        <div class="item">
+            <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
+                <div class="user-avatar">
+                    <img src="<?php echo PathHelper::getPathByImageId($v); ?> " alt=''>
+                </div>
+                <div class="mini-block-wrap" id="first-last-name">
+                    <?php echo $v->first_name . ' ' . $v->last_name; ?>
+                </div>
+            </a>
+        </div>
+    <?php endforeach; ?>
+
 </div>
