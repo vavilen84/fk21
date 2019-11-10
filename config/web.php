@@ -14,8 +14,9 @@ $config = [
     'modules' => [
         'redactor' => [
             'class' => 'yii\redactor\RedactorModule',
-//            'uploadDir' => '@webroot/uploads/blog',
-//            'uploadUrl' => '@web/image/add-post-image',
+            'uploadDir' => getenv('PROJECT_PATH').'/web/uploads-redactor',
+            'uploadUrl' => getenv('DOMEN').'/uploads-redactor',
+//            'imageUploadRoute' => ['/post/upload-redactor-image'],
 //            'imageAllowExtensions'=>['jpg','png','gif']
         ],
     ],

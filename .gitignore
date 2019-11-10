@@ -34,3 +34,5 @@ tests/_support/_generated
 .env
 web/uploads/*
 !web/uploads/.gitignore
+web/uploads-redactor/*
+!web/uploads-redactor/.gitignore

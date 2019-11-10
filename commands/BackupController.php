@@ -11,5 +11,6 @@ class BackupController extends Controller
     {
         Yii::$app->backup->createDbDump();
         Yii::$app->backup->backupImages();
+        Yii::$app->backup->backupRedactorImages();
     }
 }

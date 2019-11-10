@@ -50,30 +50,66 @@ class BackupComponent extends Component
         $this->uploadToDropbox($this->tempDir . $filename, $filename, '/db-backup');
     }
 
-    public function backupImages()
+    public function backupRedactorImages()
     {
-        $dt = new \DateTime();
-        $dt->setTimestamp(time() - (60 * 60 * 24));
-        $year = $dt->format('Y');
-        $month = $dt->format('m');
-        $day = $dt->format('d');
-        $backupFolder = getenv('PROJECT_PATH') . "/web/uploads/" . $year . "/" . $month . "/" . $day;
+        $backupFolder = getenv('PROJECT_PATH') . "/web/uploads-redactor";
         if (file_exists($backupFolder)) {
-            $images = scandir($backupFolder);
-            if (!empty($images) && (count($images) > 2)) {
-                $images = array_slice($images, 2);
-                foreach ($images as $image) {
-                    $this->uploadToDropbox($backupFolder . "/" . $image, $image, "/images");
+            $userIds = scandir($backupFolder);
+            if (!empty($userIds) && (count($userIds) > 3)) {
+                $userIds = array_slice($userIds, 3); // remove ., .. , .gitignore from dir list
+                foreach ($userIds as $userId) {
+                    $imageFolder = $backupFolder . DIRECTORY_SEPARATOR . $userId;
+                    $images = scandir($imageFolder);
+                    if (!empty($images) && (count($images) > 2)) {
+                        $images = array_slice($images, 2);
+                        foreach ($images as $image) {
+                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads-redactor", true);
+                        }
+                    }
                 }
             }
         }
     }
 
-    public function uploadToDropbox($filepath, $filename, $path)
+    public function backupImages()
+    {
+        $backupFolder = getenv('PROJECT_PATH') . "/web/uploads";
+        if (file_exists($backupFolder)) {
+            $years = scandir($backupFolder);
+            if (!empty($years) && (count($years) > 3)) {
+                $years = array_slice($years, 3); // remove ., .. , .gitignore from dir list
+                foreach ($years as $year) {
+                    $months = scandir($backupFolder . DIRECTORY_SEPARATOR . $year);
+                    if (!empty($months) && (count($months) > 2)) {
+                        $months = array_slice($months, 2);
+                        foreach ($months as $month) {
+                            $days = scandir($backupFolder . DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month);
+                            if (!empty($days) && (count($days) > 2)) {
+                                $days = array_slice($days, 2);
+                                foreach ($days as $day) {
+                                    $imageFolder = $backupFolder . DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month . DIRECTORY_SEPARATOR . $day;
+                                    $images = scandir($imageFolder);
+                                    if (!empty($images) && (count($images) > 2)) {
+                                        $images = array_slice($images, 2);
+                                        foreach ($images as $image) {
+                                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function uploadToDropbox($filepath, $filename, $path, $skipDateFolder = false)
     {
         $date = new \DateTime();
-        $date->add(\DateInterval::createFromDateString('yesterday'));
-        $path .= '/' . $date->format('Y') . '/' . $date->format('n') . '/' . $date->format('j') . '/' . $filename;
+        $path .= $skipDateFolder
+            ? '/' . $filename
+            : '/' . $date->format('Y') . '/' . $date->format('n') . '/' . $date->format('j') . '/' . $filename;
         $api_url = 'https://content.dropboxapi.com/2/files/upload';
         $headers = array('Authorization: Bearer ' . getenv('DROPBOX_ACCESS_TOKEN'),
             'Content-Type: application/octet-stream',
