@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use app\models\User;
+use app\models\ImageUpload;
+use app\models\Image;
+use yii\web\UploadedFile;
 
 class CompetitionController extends Controller
 {
@@ -49,10 +52,17 @@ class CompetitionController extends Controller
     public function actionCreate()
     {
         $model = new Competition();
-
+        $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post())) {
             if (!empty($model->deadline_at)) {
                 $model->deadline_at = strtotime($model->deadline_at);
+            }
+            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'image');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+                    $model->image_id = $uploaded->id;
+                }
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Успешно добавлено!');
@@ -68,10 +78,17 @@ class CompetitionController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $imageUploadModel = new ImageUpload();
         if ($model->load(Yii::$app->request->post())) {
             if (!empty($model->deadline_at)) {
                 $model->deadline_at = strtotime($model->deadline_at);
+            }
+            $imageUploadModel->imageFile = UploadedFile::getInstance($model, 'image');
+            if (!empty($imageUploadModel->imageFile)) {
+                $uploaded = $imageUploadModel->upload();
+                if ($uploaded instanceof Image) {
+                    $model->image_id = $uploaded->id;
+                }
             }
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Успешно обновлено!');

@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use app\models\Competition;
 use kartik\date\DatePicker;
+use app\helpers\PathHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Competition */
@@ -23,6 +24,11 @@ use kartik\date\DatePicker;
     <?= $form->field($model, 'title')->textInput(['rows' => 6])->label('Название') ?>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6])->label('Краткое описание') ?>
+
+    <?php if (!empty($model->image_id)): ?>
+        <img src="<?php echo PathHelper::getPathByImageId($model->image_id); ?>" alt="">
+    <?php endif; ?>
+    <?= $form->field($model, 'image')->fileInput()->label('Изображение') ?>
 
     <?= $form->field($model, 'content')->widget(\yii\redactor\widgets\Redactor::className())->label('Детали конкурса') ?>
 
