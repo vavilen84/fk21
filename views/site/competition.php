@@ -119,7 +119,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
             }
         });
         $.each(items, function (i, v) {
-            $(this).css("height", maxHeight).css("visibility", "visible");
+            var h = $(this).height();
+            var padding = (maxHeight - h) / 2;
+            $(this).css("height", maxHeight).css("visibility", "visible").css("padding-top", padding);
         });
     }
 </script>
@@ -168,6 +170,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
                     </span>
                 </div>
             </a>
+            <div class="clear"></div>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
