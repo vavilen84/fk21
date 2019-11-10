@@ -63,7 +63,7 @@ class BackupComponent extends Component
                     if (!empty($images) && (count($images) > 2)) {
                         $images = array_slice($images, 2);
                         foreach ($images as $image) {
-                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads-redactor", true);
+                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads-redactor/".$userId, true);
                         }
                     }
                 }
