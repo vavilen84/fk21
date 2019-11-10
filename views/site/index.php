@@ -171,6 +171,7 @@ $this->title = 'Home | Fotokolo';
     .competition-info .title,
     .competition-info .description {
         color: black;
+        text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
     }
     .competition-info .title{
         font-size: 48px;
@@ -178,6 +179,7 @@ $this->title = 'Home | Fotokolo';
     .competition-info .description{
         font-size: 28px;
     }
+
 </style>
 <script>
     $(document).ready(function () {
