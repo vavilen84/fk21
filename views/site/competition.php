@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
     <h3>Конкурсные работы</h3>
     <div id="lightgallery">
         <?php foreach ($images as $image): ?>
-            <?php $image = Image::findOne($userGalleryImage->image_id); ?>
+            <?php $image = Image::findOne($image->image_id); ?>
             <?php $dataSubHtml = ""; ?>
             <?php if (!empty($image->title) || !empty($image->description)): ?>
                 <?php $dataSubHtml = $image->title . "<br>" . $image->description; ?>
