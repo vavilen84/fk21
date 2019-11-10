@@ -64,6 +64,7 @@ $this->title = 'Home | Fotokolo';
         background: black;
         color: rgb(250, 50, 70);
         padding: 5px 10px;
+        z-index: 999;
     }
 
     #index-page-news a {
@@ -80,7 +81,7 @@ $this->title = 'Home | Fotokolo';
         text-decoration: underline;
     }
 
-    #index-page-ad {
+    #index-page-ad, #competitions {
         position: relative;
     }
 
@@ -138,7 +139,7 @@ $this->title = 'Home | Fotokolo';
     }
     #users .item{
         width:25%;
-        height:300px;
+        height:200px;
         text-align: center;
     }
     #users img{
@@ -156,10 +157,27 @@ $this->title = 'Home | Fotokolo';
         border-radius: 50%;
         overflow: hidden;
     }
-    #users {
+    #users, .competition-info {
         position:relative;
     }
-
+    .competition-image img {
+        min-width:100%;
+    }
+    .competition-info-inner {
+        position: absolute;
+        top:10%;
+        left: 50%;
+    }
+    .competition-info .title,
+    .competition-info .description {
+        color: black;
+    }
+    .competition-info .title{
+        font-size: 48px;
+    }
+    .competition-info .description{
+        font-size: 28px;
+    }
 </style>
 <script>
     $(document).ready(function () {
@@ -168,6 +186,8 @@ $this->title = 'Home | Fotokolo';
         fixElementHeight(newsBlocks, 30);
         var articlesBlocks = $("#index-page-articles .item");
         fixElementHeight(articlesBlocks, 30);
+        var usersBlocks = $("#users .user-avatar");
+        fixElementHeight(usersBlocks, 0);
 
     });
 
@@ -282,12 +302,17 @@ $this->title = 'Home | Fotokolo';
     <div class="banner">Конкурсы</div>
     <?php foreach ($competitions as $v): ?>
         <div class="item">
-            <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>">
-                <div class="user-avatar">
-                    <img src="<?php echo PathHelper::getPathByImageId($v); ?> " alt=''>
-                </div>
-                <div class="mini-block-wrap" id="first-last-name">
-                    <?php echo $v->first_name . ' ' . $v->last_name; ?>
+            <a href="<?php echo Url::toRoute(['site/competition', 'id' => $v->id]); ?>">
+                <div class="competition-image competition-info">
+                    <img src="<?php echo PathHelper::getPathByImageId($v->image_id); ?> " alt=''>
+                    <div class="competition-info-inner">
+                        <div class="mini-block-wrap title">
+                            <?php echo $v->title; ?>
+                        </div>
+                        <div class="mini-block-wrap description">
+                            <?php echo $v->description; ?>
+                        </div>
+                    </div>
                 </div>
             </a>
         </div>
