@@ -14,9 +14,11 @@ $this->title = 'Home | Fotokolo';
     .left {
         float: left;
     }
-    .right{
-        float:right;
+
+    .right {
+        float: right;
     }
+
     .clear {
         clear: both;
     }
@@ -111,14 +113,45 @@ $this->title = 'Home | Fotokolo';
     #index-page-articles .item img {
         max-height: 400px;
     }
-    #index-page-articles{
-        position:relative;
+
+    #index-page-articles {
+        position: relative;
     }
-    .author-link{
+
+    .author-link {
         color: rgb(250, 50, 70);
         text-decoration: underline;
     }
+
+    #index-page-news,
+    #index-page-articles {
+        visibility: hidden;
+    }
+
 </style>
+<script>
+    $(document).ready(function () {
+        // set same height for news blocks and show
+        var newsBlocks = $("#index-page-news .item");
+        fixElementHeight(newsBlocks);
+        var articlesBlocks = $("#index-page-articles .item");
+        fixElementHeight(articlesBlocks);
+
+    });
+
+    function fixElementHeight(items) {
+        var maxHeight = 0;
+        $.each(items, function (i, v) {
+            var h = $(this).height();
+            if (h > maxHeight) {
+                maxHeight = h;
+            }
+        });
+        $.each(items, function (i, v) {
+            $(this).css("height", maxHeight).css("visibility", "visible");
+        });
+    }
+</script>
 
 <div id="index-page-news">
     <div class="banner">Новости</div>
@@ -178,7 +211,8 @@ $this->title = 'Home | Fotokolo';
                         <span class="created_at"><?php echo date('d\.m\.Y'); ?></span>
                         <div style="color:gray;">Автор:</div>
                         <?php $author = User::findOne($v->user_id); ?>
-                        <div><a class="author-link" href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
+                        <div><a class="author-link"
+                                href=""><?php echo $author->first_name . " " . $author->last_name; ?></a></div>
                     </div>
                 </div>
                 <div class="clear"></div>
