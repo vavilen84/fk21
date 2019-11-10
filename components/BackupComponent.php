@@ -47,55 +47,81 @@ class BackupComponent extends Component
             $this->tempDir . $filename
         );
         exec($command);
-        $this->uploadToDropbox($this->tempDir . $filename, $filename, '/db-backup');
+        $source = $this->tempDir . $filename;
+        $date = new \DateTime();
+        $destination = '/db-backup/' . $date->format('Y') . '/' . $date->format('n') . '/' . $date->format('j') . '/' . $filename;
+        $this->uploadToDropbox($source, $destination);
     }
 
     public function backupRedactorImages()
     {
         $backupFolder = getenv('PROJECT_PATH') . "/web/uploads-redactor";
         if (file_exists($backupFolder)) {
-            $userIds = scandir($backupFolder);
-            if (!empty($userIds) && (count($userIds) > 3)) {
-                $userIds = array_slice($userIds, 3); // remove ., .. , .gitignore from dir list
+            $userIds = $this->filterFileDirList($backupFolder);
+            if (!empty($userIds)) {
                 foreach ($userIds as $userId) {
                     $imageFolder = $backupFolder . DIRECTORY_SEPARATOR . $userId;
-                    $images = scandir($imageFolder);
-                    if (!empty($images) && (count($images) > 2)) {
-                        $images = array_slice($images, 2);
-                        foreach ($images as $image) {
-                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads-redactor/".$userId, true);
-                        }
+                    $images = $this->filterFileDirList($imageFolder);
+                    if (empty($images)) {
+                        continue;
+                    }
+                    foreach ($images as $imageFilename) {
+                        $source = $imageFolder . DIRECTORY_SEPARATOR . $imageFilename;
+                        $destination = "/uploads-redactor/" . $userId . "/" . $imageFilename;
+                        $this->uploadToDropbox($source, $destination);
                     }
                 }
             }
         }
     }
 
+    protected function filterFileDirList($dir)
+    {
+        if (!is_dir($dir)) {
+            return [];
+        }
+        $list = scandir($dir);
+        if (empty($list)) {
+            return [];
+        }
+        $result = [];
+        $exclude = [".", "..", ".gitignore"];
+        foreach ($list as $v) {
+            if (!in_array($v, $exclude)) {
+                $result[] = $v;
+            }
+        }
+        return $result;
+    }
+
     public function backupImages()
     {
         $backupFolder = getenv('PROJECT_PATH') . "/web/uploads";
         if (file_exists($backupFolder)) {
-            $years = scandir($backupFolder);
-            if (!empty($years) && (count($years) > 3)) {
-                $years = array_slice($years, 3); // remove ., .. , .gitignore from dir list
+            $years = $this->filterFileDirList($backupFolder);
+            if (!empty($years)) {
                 foreach ($years as $year) {
-                    $months = scandir($backupFolder . DIRECTORY_SEPARATOR . $year);
-                    if (!empty($months) && (count($months) > 2)) {
-                        $months = array_slice($months, 2);
-                        foreach ($months as $month) {
-                            $days = scandir($backupFolder . DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month);
-                            if (!empty($days) && (count($days) > 2)) {
-                                $days = array_slice($days, 2);
-                                foreach ($days as $day) {
-                                    $imageFolder = $backupFolder . DIRECTORY_SEPARATOR . $year . DIRECTORY_SEPARATOR . $month . DIRECTORY_SEPARATOR . $day;
-                                    $images = scandir($imageFolder);
-                                    if (!empty($images) && (count($images) > 2)) {
-                                        $images = array_slice($images, 2);
-                                        foreach ($images as $image) {
-                                            $this->uploadToDropbox($imageFolder . DIRECTORY_SEPARATOR . $image, $image, "/uploads");
-                                        }
-                                    }
-                                }
+                    $yearDir = $backupFolder . DIRECTORY_SEPARATOR . $year;
+                    $months = $this->filterFileDirList($yearDir);
+                    if (empty($months)) {
+                        continue;
+                    }
+                    foreach ($months as $month) {
+                        $monthDir = $yearDir . DIRECTORY_SEPARATOR . $month;
+                        $days = $this->filterFileDirList($monthDir);
+                        if (empty($days)) {
+                            continue;
+                        }
+                        foreach ($days as $day) {
+                            $imageFolder = $monthDir . DIRECTORY_SEPARATOR . $day;
+                            $images = $this->filterFileDirList($imageFolder);
+                            if (empty($images)) {
+                                continue;
+                            }
+                            foreach ($images as $imageFilename) {
+                                $source = $imageFolder . DIRECTORY_SEPARATOR . $imageFilename;
+                                $destination = "/uploads/" . $year . "/" . $month . "/" . $day . "/" . $imageFilename;
+                                $this->uploadToDropbox($source, $destination);
                             }
                         }
                     }
@@ -104,19 +130,15 @@ class BackupComponent extends Component
         }
     }
 
-    public function uploadToDropbox($filepath, $filename, $path, $skipDateFolder = false)
+    public function uploadToDropbox($source, $destination)
     {
-        $date = new \DateTime();
-        $path .= $skipDateFolder
-            ? '/' . $filename
-            : '/' . $date->format('Y') . '/' . $date->format('n') . '/' . $date->format('j') . '/' . $filename;
         $api_url = 'https://content.dropboxapi.com/2/files/upload';
         $headers = array('Authorization: Bearer ' . getenv('DROPBOX_ACCESS_TOKEN'),
             'Content-Type: application/octet-stream',
             'Dropbox-API-Arg: ' .
             json_encode(
                 [
-                    "path" => $path,
+                    "path" => $destination,
                     "mode" => "add",
                     "autorename" => true,
                     "mute" => false
@@ -126,8 +148,8 @@ class BackupComponent extends Component
         $ch = curl_init($api_url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POST, true);
-        $fp = fopen($filepath, 'rw');
-        $filesize = filesize($filepath);
+        $fp = fopen($source, 'rw');
+        $filesize = filesize($source);
         curl_setopt($ch, CURLOPT_POSTFIELDS, fread($fp, $filesize));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //        curl_setopt($ch, CURLOPT_VERBOSE, 1); // debug
