@@ -127,23 +127,30 @@ $this->title = 'Home | Fotokolo';
     #index-page-articles {
         visibility: hidden;
     }
+    .read-more-block{
+        position: absolute;
+        bottom:10px;
+    }
 
 </style>
 <script>
     $(document).ready(function () {
         // set same height for news blocks and show
         var newsBlocks = $("#index-page-news .item");
-        fixElementHeight(newsBlocks);
+        fixElementHeight(newsBlocks, 30);
         var articlesBlocks = $("#index-page-articles .item");
-        fixElementHeight(articlesBlocks);
+        fixElementHeight(articlesBlocks, 30);
 
     });
 
-    function fixElementHeight(items) {
+    function fixElementHeight(items, additinalPadding) {
         var maxHeight = 0;
         $.each(items, function (i, v) {
             var h = $(this).height();
             if (h > maxHeight) {
+                if (additinalPadding) {
+                    h = h + additinalPadding;
+                }
                 maxHeight = h;
             }
         });
@@ -167,7 +174,7 @@ $this->title = 'Home | Fotokolo';
                 <div class="mini-block-wrap">
                     <span class="title"><?php echo $v->title; ?></span>
                 </div>
-                <div class="mini-block-wrap">
+                <div class="mini-block-wrap read-more-block">
                     <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
                 </div>
             </a>
@@ -217,7 +224,7 @@ $this->title = 'Home | Fotokolo';
                 </div>
                 <div class="clear"></div>
             </div>
-            <div class="mini-block-wrap">
+            <div class="mini-block-wrap read-more-block">
                 <a href="<?php echo Url::toRoute(['site/post', 'id' => $v->id]); ?>" class="read-more">...</a>
             </div>
         </div>
