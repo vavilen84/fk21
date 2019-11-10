@@ -119,9 +119,9 @@ class UserGalleryImageController extends Controller
                     $competitionUserImage->user_id = $userId;
                     $competitionUserImage->image_id = $uploaded->id;
 
-                    if($competitionUserImage->save()){
+                    if ($competitionUserImage->save()) {
                         Yii::$app->session->setFlash('success', ' Сохранено успешно!');
-                        return $this->redirect(['profile', 'id' => $user->id]);
+                        return $this->redirect(['competition-participate', 'userId' => $user->id, 'competitionId' => $competitionId]);
                     }
                 }
             }
@@ -196,5 +196,42 @@ class UserGalleryImageController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    public function actionUpdateCompetitionImage($imageId, $userId, $competitionId)
+    {
+        $model = Image::findOne($imageId);
+        if (empty($model)) {
+            throw new NotFoundHttpException("Image not found");
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Сохранено!');
+            return $this->redirect(['competition-participate', 'userId' => $userId, 'competitionId' => $competitionId]);
+        }
+
+        return $this->render('update-competition-image', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionCompetitionParticipateRemoveImage($imageId, $userId, $competitionId)
+    {
+        $model = Image::findOne($imageId);
+        if (empty($model)) {
+            throw new NotFoundHttpException("Image not found");
+        }
+        $competitionUserImage = CompetitionUserImage::find()->where(
+            [
+                'image_id' => $imageId,
+                'user_id' => $userId,
+                'competition_id' => $competitionId
+            ])->one();
+        if (!empty($competitionUserImage)) {
+            $competitionUserImage->delete();
+        }
+        Yii::$app->session->setFlash('success', 'Удалено!');
+        return $this->redirect(['competition-participate', 'userId' => $userId, 'competitionId' => $competitionId]);
+
     }
 }

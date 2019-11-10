@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\helpers\StringHelper;
+use app\models\gii\CompetitionUserImage;
 use app\models\ResetPasswordForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -162,7 +163,6 @@ class SiteController extends Controller
         ]);
     }
 
-    // TODO not userd for now
     public function actionPosts()
     {
         $query = Post::find()->where(['status' => Post::PUBLISHED_STATUS])->orderBy('id DESC');
@@ -240,6 +240,20 @@ class SiteController extends Controller
 
         return $this->render('post', [
             'model' => $model,
+        ]);
+    }
+
+    public function actionCompetition($id)
+    {
+        $model = Competition::findOne($id);
+        if (empty($model)) {
+            throw new NotFoundHttpException('Competition not found');
+        }
+        $images = CompetitionUserImage::find()->where(['competition_id' => $id])->all();
+
+        return $this->render('competition', [
+            'model' => $model,
+            'images' => $images
         ]);
     }
 }

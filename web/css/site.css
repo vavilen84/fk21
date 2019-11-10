@@ -116,3 +116,79 @@ a.desc:after {
  img {
      max-width: 100%;
  }
+
+ .breadcrumb li a {
+     color:black;
+     text-decoration: underline;
+ }
+
+#lightgallery a {
+    max-width: 23%;
+    padding: 1%;
+    margin: 3px 0;
+    display: inline-block;
+    text-align: center;
+}
+
+#user-list a {
+    color: black;
+    font-weight: bold;
+}
+
+#lightgallery a img {
+    max-width: 100%;
+}
+
+.mySlides img {
+    max-height: 800px;
+}
+
+.container .w25 {
+    width: 25%;
+    max-width: 25%;
+}
+
+.container .w25 img {
+    max-width: 100%;
+}
+
+.container .w70 {
+    width: 70%;
+}
+
+.container .w45 {
+    width: 45%;
+}
+
+.portfolio-item {
+    width: 23%;
+    margin: 1%;
+    height: 150px;
+    text-align: center;
+}
+
+.links .item {
+    padding: 10px 10px 10px 0;
+    vertical-align: middle;
+}
+
+.links .item img {
+    position: relative;
+}
+
+.links {
+    margin-top: 30px;
+}
+
+.portfolio-item img {
+    max-width: 100%;
+    max-height: 150px;
+}
+
+.fl {
+    float: left;
+}
+
+.fr {
+    float: right;
+}
