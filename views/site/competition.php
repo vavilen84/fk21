@@ -9,79 +9,12 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
 
 ?>
-<style>
-    .h1 {
-        padding-top: 50px;
-    }
-
-    .post-image-block {
-        text-align: center;
-        padding-top: 50px;
-    }
-
-    .post-content {
-        padding-top: 50px;
-        padding-left: 200px;
-    }
-
-    .post-content img {
-        position: relative;
-        left: -200px;
-    }
-
-    .deadline {
-        font-weight: bold;
-        text-align: center;
-        padding-top: 50px;
-    }
-
-    #lightgallery .author {
-        color: red;
-        text-decoration: underline;
-    }
-
-    .gallery-image {
-        display: block;
-        float: left;
-        visibility: hidden;
-        border-radius: 5px;
-        border: 1px solid gray;
-        position: relative;
-    }
-
-    .competition-image-info {
-        text-align: center;
-    }
-
-    .competition-image:hover {
-        text-decoration: none;
-    }
-</style>
 <script>
     $(document).ready(function () {
         // set same height for news blocks and show
         var images = $("#lightgallery .gallery-image");
         fixElementHeight(images, 100);
-
     });
-
-    function fixElementHeight(items, additinalPadding) {
-        var maxHeight = 0;
-        $.each(items, function (i, v) {
-            var h = $(this).height();
-            if (h > maxHeight) {
-                if (additinalPadding) {
-                    h = h + additinalPadding;
-                }
-                maxHeight = h;
-            }
-        });
-        $.each(items, function (i, v) {
-            var h = $(this).height();
-            var padding = (maxHeight - h) / 2;
-            $(this).css("height", maxHeight).css("visibility", "visible").css("padding-top", padding);
-        });
-    }
 </script>
 <h1 class="h1">
     <?php echo $model->title; ?>
@@ -116,6 +49,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
                href="#">
                 <?php $imageSize = getimagesize(getenv("PROJECT_PATH") . "/web" . PathHelper::getPathByImage($image)); ?>
                 <img
+                        data-id="<?php echo $image->id; ?>"
                         data-width="<?php echo $imageSize[0]; ?>"
                         data-height="<?php echo $imageSize[1]; ?>"
                         src="<?php echo PathHelper::getPathByImage($image); ?>">

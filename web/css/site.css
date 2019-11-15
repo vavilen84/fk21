@@ -246,3 +246,271 @@ html, body {
     top:11px;
     left:9px;
 }
+#gallery-wrap #description > div {
+    color:white !important;
+}
+#logo {
+    position: relative;
+    top: 15px;
+}
+
+.footer {
+    background: #333333;
+    height: 50px;
+    position: relative;
+    top: 10px;
+}
+
+#gallery-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: black;
+    min-width: 100%;
+    min-height: 100%;
+    height: 100%;
+    z-index: 999999;
+    display: none;
+}
+
+#gallery-wrap #controls {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    height: 100%;
+}
+
+#gallery-wrap img {
+    max-width: 1200px;
+    max-width: 90%;
+}
+
+#gallery-wrap #image,
+#gallery-wrap #description {
+    text-align: center;
+}
+
+#gallery-wrap #description {
+    color: white;
+    padding-top: 20px;
+}
+
+.overflow-hidden {
+    overflow: hidden;
+}
+
+.h1 {
+    padding-top: 50px;
+}
+
+.post-image-block {
+    text-align: center;
+    padding-top: 50px;
+}
+
+.post-content {
+    padding-top: 50px;
+    padding-left: 200px;
+}
+
+.post-content img {
+    position: relative;
+    left: -200px;
+}
+
+.deadline {
+    font-weight: bold;
+    text-align: center;
+    padding-top: 50px;
+}
+
+#lightgallery .author {
+    color: red;
+    text-decoration: underline;
+}
+
+.gallery-image {
+    display: block;
+    float: left;
+    visibility: hidden;
+    border-radius: 5px;
+    border: 1px solid gray;
+    position: relative;
+}
+
+.competition-image-info {
+    text-align: center;
+}
+
+.competition-image:hover {
+    text-decoration: none;
+}
+
+.left {
+    float: left;
+}
+.right{
+    float:right;
+}
+
+.clear {
+    clear: both;
+}
+
+#index-page-news .item {
+    border: 1px solid #cecece;
+    width: 33%;
+}
+
+#index-page-news .item .image {
+    height: 255px;
+    overflow: hidden;
+}
+
+#index-page-news .item img {
+    max-height: 250px;
+}
+
+.created_at {
+    color: gray;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.mini-block-wrap {
+    padding: 10px 20px;
+}
+
+#index-page-news {
+    position: relative;
+}
+
+#index-page-news .banner,
+#index-page-ad .banner,
+#index-page-articles .banner,
+#users .banner,
+#competitions .banner{
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    background: black;
+    color: rgb(250, 50, 70);
+    padding: 5px 10px;
+    z-index: 999;
+}
+
+#index-page-news a {
+    text-decoration: none;
+    color: black;
+}
+
+#index-page-news .read-more,
+#index-page-ad .read-more,
+#index-page-articles .read-more {
+    color: rgb(250, 50, 70);
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+#index-page-ad, #competitions {
+    position: relative;
+}
+
+#index-page-ad .item {
+    border: 1px solid gray;
+    width: 100%;
+    padding: 20px 20px 20px 370px;
+}
+
+#index-page-ad a {
+    color: black;
+}
+
+#index-page-ad a:hover {
+    text-decoration: none;
+}
+
+#index-page-ad .title {
+    font-size: 38px;
+}
+
+#index-page-articles .item {
+    width: 50%;
+    border: 1px solid gray;
+}
+
+#index-page-articles .item .image {
+    height: 405px;
+    overflow: hidden;
+}
+
+#index-page-articles .item img {
+    max-height: 400px;
+}
+#article-title-wrap {
+    color: black;
+    font-weight: bold;
+}
+#index-page-articles{
+    position:relative;
+}
+
+.author-link {
+    color: rgb(250, 50, 70);
+    text-decoration: underline;
+}
+
+#index-page-news,
+#index-page-articles {
+    visibility: hidden;
+}
+.read-more-block{
+    position: absolute;
+    bottom:10px;
+}
+#users .item{
+    width:25%;
+    height:200px;
+    text-align: center;
+}
+#users img{
+    max-height: 100px;
+}
+#users {
+    padding-top:60px;
+}
+#users #first-last-name {
+    font-weight:bold;
+    color: rgb(250, 50, 70);
+    text-decoration: underline;
+}
+.user-avatar{
+    border-radius: 50%;
+    overflow: hidden;
+}
+#users, .competition-info {
+    position:relative;
+}
+.competition-image img {
+    min-width:100%;
+}
+.competition-info-inner {
+    position: absolute;
+    top:10%;
+    left: 50%;
+}
+.competition-info .title,
+.competition-info .description {
+    color: black;
+    text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}
+.competition-info .title{
+    font-size: 48px;
+}
+.competition-info .description{
+    font-size: 28px;
+}
+
