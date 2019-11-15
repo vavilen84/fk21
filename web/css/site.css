@@ -192,3 +192,57 @@ a.desc:after {
 .fr {
     float: right;
 }
+html, body {
+    height: 100%;
+}
+#gallery-wrap #left-wrap:hover,
+#gallery-wrap #right-wrap:hover,
+#gallery-wrap #close-wrap:hover{
+    cursor:pointer;
+}
+#gallery-wrap #left-wrap,
+#gallery-wrap #right-wrap,
+#gallery-wrap #close-wrap{
+    position:absolute;
+    background: gray;
+    border:1px solid black;
+    border-radius: 5px;
+}
+#gallery-wrap #left-wrap,
+#gallery-wrap #right-wrap {
+    top:50%;
+    width:41px;
+    height:41px;
+}
+#gallery-wrap #close-wrap{
+    position:absolute;
+    right:10px;
+    top:10px;
+    width:41px;
+    height:41px;
+}
+#gallery-wrap #left-wrap{
+    left:10px;
+}
+#gallery-wrap #right-wrap{
+    right:10px;
+}
+#gallery-wrap #left {
+    background: url("../images/controls.png") 7px -20px no-repeat;
+    width:41px;
+    height:41px;
+}
+#gallery-wrap #right {
+    background: url("../images/controls.png") 9px -58px no-repeat;
+    width:41px;
+    height:41px;
+
+}
+#gallery-wrap #close {
+    background: url("../images/controls.png") 0px 0px no-repeat;
+    width:19px;
+    height:19px;
+    position: relative;
+    top:11px;
+    left:9px;
+}

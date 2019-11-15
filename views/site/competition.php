@@ -40,15 +40,16 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
         text-decoration: underline;
     }
 
-    .competition-image {
+    .gallery-image {
         display: block;
         float: left;
         visibility: hidden;
         border-radius: 5px;
         border: 1px solid gray;
-        position:relative;
+        position: relative;
     }
-    .competition-image-info{
+
+    .competition-image-info {
         text-align: center;
     }
 
@@ -56,53 +57,10 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
         text-decoration: none;
     }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-<link type="text/css" rel="stylesheet" href="/libs/lightGallery-master/src/css/lightgallery.css"/>
-<script>
-    $(document).ready(function () {
-        function loadScript(url, callback) {
-            var script = document.createElement("script")
-            script.type = "text/javascript";
-            if (script.readyState) {  //IE
-                script.onreadystatechange = function () {
-                    if (script.readyState == "loaded" ||
-                        script.readyState == "complete") {
-                        script.onreadystatechange = null;
-                        callback();
-                    }
-                };
-            } else {  //Others
-                script.onload = function () {
-                    callback();
-                };
-            }
-            script.src = url;
-            document.getElementsByTagName("head")[0].appendChild(script);
-        }
-
-        loadScript("/libs/lightGallery-master/src/js/lightgallery.js", function () {
-            loadScript("/libs/lightGallery-master/modules/lg-thumbnail.min.js", function () {
-            });
-            loadScript("/libs/lightGallery-master/modules/lg-fullscreen.min.js", function () {
-            });
-            $("#lightgallery").lightGallery({
-                mode: 'lg-fade',
-                addClass: 'fixed-size',
-                counter: false,
-                download: false,
-                startClass: '',
-                enableSwipe: false,
-                enableDrag: false,
-                speed: 500
-            });
-        });
-
-    });
-</script>
 <script>
     $(document).ready(function () {
         // set same height for news blocks and show
-        var images = $("#lightgallery .competition-image");
+        var images = $("#lightgallery .gallery-image");
         fixElementHeight(images, 100);
 
     });
@@ -148,15 +106,19 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
 <?php if (($model->status == Competition::RESULTS_PUBLISHED_STATUS) && !empty($images)): ?>
     <h3>Конкурсные работы</h3>
     <div id="lightgallery">
-        <?php foreach ($images as $v): ?>
+        <?php foreach ($images as $k => $v): ?>
             <?php $image = Image::findOne($v->image_id); ?>
             <?php $dataSubHtml = ""; ?>
             <?php if (!empty($image->title) || !empty($image->description)): ?>
                 <?php $dataSubHtml = $image->title . "<br>" . $image->description; ?>
             <?php endif ?>
-            <a class="competition-image" data-sub-html="<?php echo $dataSubHtml; ?>"
-               href=" <?php echo PathHelper::getPathByImage($image); ?>">
-                <img src="<?php echo PathHelper::getPathByImage($image); ?>">
+            <a class="gallery-image" data-sub-html="<?php echo $dataSubHtml; ?>"
+               href="#">
+                <?php $imageSize = getimagesize(getenv("PROJECT_PATH") . "/web" . PathHelper::getPathByImage($image)); ?>
+                <img
+                        data-width="<?php echo $imageSize[0]; ?>"
+                        data-height="<?php echo $imageSize[1]; ?>"
+                        src="<?php echo PathHelper::getPathByImage($image); ?>">
                 <div class="competition-image-info">
                     <div style="color:black;">
                         <?php echo $image->title; ?>
@@ -170,7 +132,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
                     </span>
                 </div>
             </a>
-            <div class="clear"></div>
         <?php endforeach; ?>
     </div>
 <?php endif; ?>
