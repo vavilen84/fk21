@@ -11,9 +11,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
 ?>
 <script>
     $(document).ready(function () {
-        // set same height for news blocks and show
         var images = $("#lightgallery .gallery-image");
-        fixElementHeight(images, 100);
+        fixElementHeight(images, 40);
     });
 </script>
 <h1 class="h1">

@@ -38,7 +38,8 @@ function replaceGalleryWrapImage(curEl) {
     var image = curEl.find("img").clone();
 
     $("#gallery-wrap #image").html(image);
-    $("#gallery-wrap #description").html(curEl.find(".competition-image-info").html());
+    var info = curEl.find(".competition-image-info").clone();
+    $("#gallery-wrap #description").html(info.show().html());
     $("#gallery-wrap").show();
 
     $("body").addClass("overflow-hidden");
@@ -68,7 +69,7 @@ function replaceGalleryWrapImage(curEl) {
     }
 }
 
-function fixElementHeight(items, additinalPadding) {
+function fixElementHeight(items, additinalPadding, autoPadding) {
     var maxHeight = 0;
     $.each(items, function (i, v) {
         var h = $(this).height();
@@ -79,9 +80,15 @@ function fixElementHeight(items, additinalPadding) {
             maxHeight = h;
         }
     });
-    $.each(items, function (i, v) {
-        var h = $(this).height();
-        var padding = (maxHeight - h) / 2;
-        $(this).css("height", maxHeight).css("visibility", "visible").css("padding-top", padding);
-    });
+    if (autoPadding)  {
+        $.each(items, function (i, v) {
+            var h = $(this).height();
+            var padding = (maxHeight - h) / 2;
+            $(this).css("height", maxHeight).css("visibility", "visible").css("padding-top", padding);
+        });
+    } else {
+        $.each(items, function (i, v) {
+            $(this).css("height", maxHeight).css("visibility", "visible");
+        });
+    }
 }

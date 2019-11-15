@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = ['label' => User::$typesTitleList[$user->type],
     $(document).ready(function () {
         // set same height for news blocks and show
         var images = $("#lightgallery .gallery-image");
-        fixElementHeight(images, 100);
+        fixElementHeight(images, 30);
     });
 </script>
 
@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = ['label' => User::$typesTitleList[$user->type],
                     data-width="<?php echo $imageSize[0]; ?>"
                     data-height="<?php echo $imageSize[1]; ?>"
                     src="<?php echo PathHelper::getPathByImage($image); ?>">
-            <div class="competition-image-info">
+            <div style="display:none;" class="competition-image-info">
                 <div style="color:black;">
                     <?php echo $image->title; ?>
                 </div>
