@@ -137,6 +137,7 @@ a.desc:after {
 
 #lightgallery a img {
     max-width: 100%;
+    max-height: 160px;
 }
 
 .mySlides img {
@@ -336,6 +337,7 @@ html, body {
     border-radius: 5px;
     border: 1px solid gray;
     position: relative;
+    width:25%;
 }
 
 .competition-image-info {
