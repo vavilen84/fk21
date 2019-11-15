@@ -1,4 +1,5 @@
 <?php
+
 use dosamigos\fileupload\FileUpload;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -6,51 +7,17 @@ use app\helpers\PathHelper;
 use yii\widgets\ActiveForm;
 use app\models\Image;
 use app\models\User;
+
 $this->title = 'Портфолио';
 $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
 $this->params['breadcrumbs'][] = ['label' => User::$typesTitleList[$user->type], 'url' => ['/site/user', 'type' => $user->type]];
 ?>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-<link type="text/css" rel="stylesheet" href="/libs/lightGallery-master/src/css/lightgallery.css"/>
+
 <script>
     $(document).ready(function () {
-        function loadScript(url, callback) {
-            var script = document.createElement("script")
-            script.type = "text/javascript";
-            if (script.readyState) {  //IE
-                script.onreadystatechange = function () {
-                    if (script.readyState == "loaded" ||
-                        script.readyState == "complete") {
-                        script.onreadystatechange = null;
-                        callback();
-                    }
-                };
-            } else {  //Others
-                script.onload = function () {
-                    callback();
-                };
-            }
-            script.src = url;
-            document.getElementsByTagName("head")[0].appendChild(script);
-        }
-
-        loadScript("/libs/lightGallery-master/src/js/lightgallery.js", function () {
-            loadScript("/libs/lightGallery-master/modules/lg-thumbnail.min.js", function () {
-            });
-            loadScript("/libs/lightGallery-master/modules/lg-fullscreen.min.js", function () {
-            });
-            $("#lightgallery").lightGallery({
-                mode: 'lg-fade',
-                addClass: 'fixed-size',
-                counter: false,
-                download: false,
-                startClass: '',
-                enableSwipe: false,
-                enableDrag: false,
-                speed: 500
-            });
-        });
-
+        // set same height for news blocks and show
+        var images = $("#lightgallery .gallery-image");
+        fixElementHeight(images, 100);
     });
 </script>
 
@@ -109,8 +76,21 @@ $this->params['breadcrumbs'][] = ['label' => User::$typesTitleList[$user->type],
         <?php if (!empty($image->title) || !empty($image->description)): ?>
             <?php $dataSubHtml = $image->title . "<br>" . $image->description; ?>
         <?php endif ?>
-        <a data-sub-html="<?php echo $dataSubHtml; ?>" href=" <?php echo PathHelper::getPathByImage($image); ?>">
-            <img src="<?php echo PathHelper::getPathByImage($image); ?>">
+        <a class="gallery-image" href="#">
+            <?php $imageSize = getimagesize(getenv("PROJECT_PATH") . "/web" . PathHelper::getPathByImage($image)); ?>
+            <img
+                    data-id="<?php echo $image->id; ?>"
+                    data-width="<?php echo $imageSize[0]; ?>"
+                    data-height="<?php echo $imageSize[1]; ?>"
+                    src="<?php echo PathHelper::getPathByImage($image); ?>">
+            <div class="competition-image-info">
+                <div style="color:black;">
+                    <?php echo $image->title; ?>
+                </div>
+                <div style="color:black;">
+                    <?php echo $image->description; ?>
+                </div>
+            </div>
         </a>
     <?php endforeach; ?>
 </div>

@@ -45,8 +45,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Главная', 'url' => ['/']];
             <?php if (!empty($image->title) || !empty($image->description)): ?>
                 <?php $dataSubHtml = $image->title . "<br>" . $image->description; ?>
             <?php endif ?>
-            <a class="gallery-image" data-sub-html="<?php echo $dataSubHtml; ?>"
-               href="#">
+            <a class="gallery-image" href="#">
                 <?php $imageSize = getimagesize(getenv("PROJECT_PATH") . "/web" . PathHelper::getPathByImage($image)); ?>
                 <img
                         data-id="<?php echo $image->id; ?>"

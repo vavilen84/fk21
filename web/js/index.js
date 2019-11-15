@@ -42,7 +42,7 @@ function replaceGalleryWrapImage(curEl) {
     $("#gallery-wrap").show();
 
     $("body").addClass("overflow-hidden");
-    var galleryContent = $("#gallery-wrap #content");
+    var galleryContent = $("#gallery-wrap #content #description");
     var galleryContentHeight = galleryContent.height();
 
     var maxWidth = 1200;
@@ -52,12 +52,19 @@ function replaceGalleryWrapImage(curEl) {
         var ratio = maxWidth / imageWidth;
         imageHeight = imageHeight * ratio
     }
-    var contentHeight = imageHeight + parseFloat(galleryContentHeight);
-
     var windowHeight = $(window).height();
-    if (windowHeight > contentHeight) {
-        var heightDiff = windowHeight - contentHeight;
-        galleryContent.css("padding-top", (heightDiff / 2))
+    if  (imageHeight >windowHeight ) {
+        imageHeight = windowHeight - (windowHeight/10);
+        $("#gallery-wrap #content").css("padding-top", 0)
+        $("#gallery-wrap #content img").css("height", imageHeight)
+    } else {
+        var contentHeight = imageHeight + parseFloat(galleryContentHeight);
+        if (windowHeight > contentHeight) {
+            var heightDiff = windowHeight - contentHeight;
+            $("#gallery-wrap #content").css("padding-top", (heightDiff / 2))
+        } else {
+            $("#gallery-wrap #content").css("padding-top", 0)
+        }
     }
 }
 
